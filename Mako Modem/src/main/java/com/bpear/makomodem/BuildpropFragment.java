@@ -84,7 +84,7 @@ public class BuildpropFragment extends Fragment implements View.OnClickListener 
             case R.id.EnableLTE:
                 switch (type) {
                     case 1:
-                        Toast.makeText(getActivity(), "Takes affect on reboot", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Takes effect on reboot.", Toast.LENGTH_SHORT).show();
                         CommandCapture command1 = new CommandCapture(0, "grep -Ev 'telephony.lteOnGsmDevice|ro.telephony.default_network|ro.ril.def.preferred.network' /system/build.prop > /sdcard/build.prop", "echo 'telephony.lteOnGsmDevice=1' >> /sdcard/build.prop", "echo 'ro.telephony.default_network=9' >> /sdcard/build.prop", "echo 'ro.ril.def.preferred.network=9' >> /sdcard/build.prop", "mount -ro remount,rw /system", "rm /system/build.prop", "dd if=/sdcard/build.prop of=/system/build.prop", "chmod 644 /system/build.prop", "rm -f /sdcard/build.prop", "mount -ro remount,ro /system");
                         try {
                             RootTools.getShell(true).add(command1);
@@ -97,7 +97,7 @@ public class BuildpropFragment extends Fragment implements View.OnClickListener 
                         }
                         break;
                     case 2:
-                        Toast.makeText(getActivity(), "I think there are easier ways to reboot your phone", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "I think there are easier ways to reboot your phone...", Toast.LENGTH_SHORT).show();
                         CommandCapture command2 = new CommandCapture(0, "reboot");
                         try {
                             RootTools.getShell(true).add(command2);
@@ -136,10 +136,10 @@ public class BuildpropFragment extends Fragment implements View.OnClickListener 
                         }
                         break;
                     case 5:
-                        Toast.makeText(getActivity(), "All 3! Take 2 you greedy person!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "All 3? Take 2, you greedy person!", Toast.LENGTH_SHORT).show();
                         break;
                     case 6:
-                        Toast.makeText(getActivity(), "The contradiction is strong with this one", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "The contradiction is strong with this one.", Toast.LENGTH_SHORT).show();
                         break;
                     case 7:
                         Toast.makeText(getActivity(), "Enabling LTE and rebooting!", Toast.LENGTH_SHORT).show();
