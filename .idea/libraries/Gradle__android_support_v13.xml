@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: android-support-v13">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Mako Modem/libs/android-support-v13.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

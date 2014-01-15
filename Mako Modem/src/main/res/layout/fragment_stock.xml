@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Select the modem you want below and hit flash"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:autoText="false"
+        android:background="#d4d4d4"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
+
+    <RadioGroup
+        android:id="@+id/radio_grp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true">
+
+        <RadioButton
+            android:id="@+id/radio_s98"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/s98"/>
+
+        <RadioButton
+            android:id="@+id/radio_s97"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/s97"  />
+
+        <RadioButton
+            android:id="@+id/radio_s84"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/s84"  />
+
+        <RadioButton
+            android:id="@+id/radio_s83"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/s83"  />
+
+        <RadioButton
+            android:id="@+id/radio_s54"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/s54"/>
+
+        <RadioButton
+            android:id="@+id/radio_s48"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/s48"  />
+
+        <RadioButton
+            android:id="@+id/radio_s33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/s33"  />
+
+        <RadioButton
+            android:id="@+id/radio_s27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/s27"  />
+
+        <RadioButton
+            android:id="@+id/radio_s24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/s24"  />
+
+    </RadioGroup>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sFlash_Button"
+        android:id="@+id/sFlash_Button"
+        android:layout_below="@+id/radio_grp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Select the modem you want below and hit flash"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:autoText="false"
+        android:background="#d4d4d4"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
+
+    <RadioGroup
+        android:id="@+id/radio_grp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true">
+
+        <RadioButton
+            android:id="@+id/radio_h33_98"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/h33_98"/>
+
+        <RadioButton
+            android:id="@+id/radio_h27_98"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/h27_98"  />
+
+        <RadioButton
+            android:id="@+id/radio_h33_84"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/h33_84"  />
+
+        <RadioButton
+            android:id="@+id/radio_h33_54"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/h33_54"  />
+
+        <RadioButton
+            android:id="@+id/radio_h27_54"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/h27_54"/>
+
+
+    </RadioGroup>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hFlash_Button"
+        android:id="@+id/hFlash_Button"
+        android:layout_below="@+id/radio_grp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+		
+</RelativeLayout>
