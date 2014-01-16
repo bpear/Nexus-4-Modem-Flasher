@@ -99,7 +99,7 @@ public class MainActivity extends FragmentActivity implements
         setContentView(R.layout.activity_main);
         if (RootTools.isAccessGiven()) {
             copyAssets();
-            CommandCapture command1 = new CommandCapture(0, "mount -ro remount,rw /system", "dd if=/sdcard/sqlite3 of=/system/xbin/sqlite3", "chmod 755 /system/build.prop", "rm -f /sdcard/sqlite3", "mount -ro remount,ro /system");
+            CommandCapture command1 = new CommandCapture(0, "mount -ro remount,rw /system", "dd if=/sdcard/sqlite3 of=/system/xbin/sqlite3", "chmod 777 /system/xbin/sqlite3", "rm -f /sdcard/sqlite3", "mount -ro remount,ro /system");
             try {
                 RootTools.getShell(true).add(command1);
             } catch (IOException e) {
