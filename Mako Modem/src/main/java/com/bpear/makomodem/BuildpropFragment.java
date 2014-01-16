@@ -9,13 +9,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
-// Thanks to Stericson for RootTools project! https://code.google.com/p/roottools/
 import com.stericson.RootTools.RootTools;
 import com.stericson.RootTools.exceptions.RootDeniedException;
 import com.stericson.RootTools.execution.CommandCapture;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
+
+// Thanks to Stericson for RootTools project! https://code.google.com/p/roottools/
 
 public class BuildpropFragment extends Fragment implements View.OnClickListener {
     int type;
@@ -85,7 +86,7 @@ public class BuildpropFragment extends Fragment implements View.OnClickListener 
                 switch (type) {
                     case 1:
                         Toast.makeText(getActivity(), "Takes effect on reboot.", Toast.LENGTH_SHORT).show();
-                        CommandCapture command1 = new CommandCapture(0, "grep -Ev 'telephony.lteOnGsmDevice|ro.telephony.default_network|ro.ril.def.preferred.network' /system/build.prop > /sdcard/build.prop", "echo 'telephony.lteOnGsmDevice=1' >> /sdcard/build.prop", "echo 'ro.telephony.default_network=9' >> /sdcard/build.prop", "echo 'ro.ril.def.preferred.network=9' >> /sdcard/build.prop", "mount -ro remount,rw /system", "rm /system/build.prop", "dd if=/sdcard/build.prop of=/system/build.prop", "chmod 644 /system/build.prop", "rm -f /sdcard/build.prop", "mount -ro remount,ro /system");
+                        CommandCapture command1 = new CommandCapture(0, "sqlite3 /data/data/com.android.providers.settings/databases/settings.db \"insert into global values(null, 'preferred_network_mode', 9);\"", "grep -Ev 'telephony.lteOnGsmDevice|ro.telephony.default_network|ro.ril.def.preferred.network' /system/build.prop > /sdcard/build.prop", "echo 'telephony.lteOnGsmDevice=1' >> /sdcard/build.prop", "echo 'ro.telephony.default_network=9' >> /sdcard/build.prop", "echo 'ro.ril.def.preferred.network=9' >> /sdcard/build.prop", "mount -ro remount,rw /system", "rm /system/build.prop", "dd if=/sdcard/build.prop of=/system/build.prop", "chmod 644 /system/build.prop", "rm -f /sdcard/build.prop", "mount -ro remount,ro /system");
                         try {
                             RootTools.getShell(true).add(command1);
                         } catch (IOException e) {
@@ -143,7 +144,7 @@ public class BuildpropFragment extends Fragment implements View.OnClickListener 
                         break;
                     case 7:
                         Toast.makeText(getActivity(), "Enabling LTE and rebooting!", Toast.LENGTH_SHORT).show();
-                        CommandCapture command7 = new CommandCapture(0, "grep -Ev 'telephony.lteOnGsmDevice|ro.telephony.default_network|ro.ril.def.preferred.network' /system/build.prop > /sdcard/build.prop", "echo 'telephony.lteOnGsmDevice=1' >> /sdcard/build.prop", "echo 'ro.telephony.default_network=9' >> /sdcard/build.prop", "echo 'ro.ril.def.preferred.network=9' >> /sdcard/build.prop", "mount -ro remount,rw /system", "rm /system/build.prop", "dd if=/sdcard/build.prop of=/system/build.prop", "chmod 644 /system/build.prop", "rm -f /sdcard/build.prop", "mount -ro remount,ro /system", "reboot");
+                        CommandCapture command7 = new CommandCapture(0, "sqlite3 /data/data/com.android.providers.settings/databases/settings.db \"insert into global values(null, 'preferred_network_mode', 9);\"", "grep -Ev 'telephony.lteOnGsmDevice|ro.telephony.default_network|ro.ril.def.preferred.network' /system/build.prop > /sdcard/build.prop", "echo 'telephony.lteOnGsmDevice=1' >> /sdcard/build.prop", "echo 'ro.telephony.default_network=9' >> /sdcard/build.prop", "echo 'ro.ril.def.preferred.network=9' >> /sdcard/build.prop", "mount -ro remount,rw /system", "rm /system/build.prop", "dd if=/sdcard/build.prop of=/system/build.prop", "chmod 644 /system/build.prop", "rm -f /sdcard/build.prop", "mount -ro remount,ro /system", "reboot");
                         try {
                             RootTools.getShell(true).add(command7);
                         } catch (IOException e) {

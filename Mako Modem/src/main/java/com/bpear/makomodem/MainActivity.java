@@ -4,9 +4,11 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +16,14 @@ import android.widget.Toast;
 
 import com.bpear.makomodem.adapter.TabsPagerAdapter;
 import com.stericson.RootTools.RootTools;
+import com.stericson.RootTools.exceptions.RootDeniedException;
+import com.stericson.RootTools.execution.CommandCapture;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.concurrent.TimeoutException;
 
 public class MainActivity extends FragmentActivity implements
         ActionBar.TabListener {
@@ -49,12 +59,56 @@ public class MainActivity extends FragmentActivity implements
         in.setClassName("com.android.settings", "com.android.settings.TestingSettings");
         startActivity(in);
     }
+
+    private void copyAssets() {
+        AssetManager assetManager = getAssets();
+        String[] files = null;
+        try {
+            files = assetManager.list("");
+        } catch (IOException e) {
+            Log.e("tag", "Failed to get asset file list.", e);
+        }
+        assert files != null;
+        for(String filename : files) {
+            InputStream in = null;
+            OutputStream out = null;
+            try {
+                in = assetManager.open(filename);
+                out = new FileOutputStream("/sdcard/" + filename);
+                copyFile(in, out);
+                in.close();
+                in = null;
+                out.flush();
+                out.close();
+                out = null;
+            } catch(IOException e) {
+                Log.e("tag", "Failed to copy asset file: " + filename, e);
+            }
+        }
+    }
+    private void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while((read = in.read(buffer)) != -1){
+            out.write(buffer, 0, read);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (RootTools.isAccessGiven()) {
-            // do something maybe
+            copyAssets();
+            CommandCapture command1 = new CommandCapture(0, "mount -ro remount,rw /system", "dd if=/sdcard/sqlite3 of=/system/xbin/sqlite3", "chmod 755 /system/build.prop", "rm -f /sdcard/sqlite3", "mount -ro remount,ro /system");
+            try {
+                RootTools.getShell(true).add(command1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (TimeoutException e) {
+                e.printStackTrace();
+            } catch (RootDeniedException e) {
+                e.printStackTrace();
+            }
         } else {
             Toast.makeText(this,"You are not rooted!", Toast.LENGTH_SHORT).show();
         }
