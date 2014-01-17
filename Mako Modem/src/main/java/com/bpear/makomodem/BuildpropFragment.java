@@ -1,7 +1,9 @@
 package com.bpear.makomodem;
 
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,10 @@ import com.stericson.RootTools.RootTools;
 import com.stericson.RootTools.exceptions.RootDeniedException;
 import com.stericson.RootTools.execution.CommandCapture;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.concurrent.TimeoutException;
 
 // Thanks to Stericson for RootTools project! https://code.google.com/p/roottools/
@@ -79,14 +84,50 @@ public class BuildpropFragment extends Fragment implements View.OnClickListener 
         }
     };
 
+    private void copyAssets() {
+        AssetManager assetManager = getActivity().getAssets();
+        String[] files = null;
+        try {
+            files = assetManager.list("");
+        } catch (IOException e) {
+            Log.e("tag", "Failed to get asset file list.", e);
+        }
+        assert files != null;
+        for(String filename : files) {
+            InputStream in = null;
+            OutputStream out = null;
+            try {
+                in = assetManager.open(filename);
+                out = new FileOutputStream("/sdcard/" + filename);
+                copyFile(in, out);
+                in.close();
+                in = null;
+                out.flush();
+                out.close();
+                out = null;
+            } catch(IOException e) {
+                Log.e("tag", "Failed to copy asset file: " + filename, e);
+            }
+        }
+    }
+
+    private void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while((read = in.read(buffer)) != -1){
+            out.write(buffer, 0, read);
+        }
+    }
+
 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.EnableLTE:
                 switch (type) {
                     case 1:
+                        copyAssets();
                         Toast.makeText(getActivity(), "Takes effect on reboot.", Toast.LENGTH_SHORT).show();
-                        CommandCapture command1 = new CommandCapture(0, "sqlite3 /data/data/com.android.providers.settings/databases/settings.db \"insert into global values(null, 'preferred_network_mode', 9);\"", "grep -Ev 'telephony.lteOnGsmDevice|ro.telephony.default_network|ro.ril.def.preferred.network' /system/build.prop > /sdcard/build.prop", "echo 'telephony.lteOnGsmDevice=1' >> /sdcard/build.prop", "echo 'ro.telephony.default_network=9' >> /sdcard/build.prop", "echo 'ro.ril.def.preferred.network=9' >> /sdcard/build.prop", "mount -ro remount,rw /system", "rm /system/build.prop", "dd if=/sdcard/build.prop of=/system/build.prop", "chmod 644 /system/build.prop", "rm -f /sdcard/build.prop", "mount -ro remount,ro /system");
+                        CommandCapture command1 = new CommandCapture(0, "mount -ro remount,rw /system", "dd if=/sdcard/sqlite_tmp of=/system/xbin/sqlite_tmp", "chmod 777 /system/xbin/sqlite_tmp", "rm -f /sdcard/sqlite_tmp", "mount -ro remount,ro /system", "sqlite_tmp /data/data/com.android.providers.settings/databases/settings.db \"insert into global values(null, 'preferred_network_mode', 9);\"", "grep -Ev 'telephony.lteOnGsmDevice|ro.telephony.default_network|ro.ril.def.preferred.network' /system/build.prop > /sdcard/build.prop", "echo 'telephony.lteOnGsmDevice=1' >> /sdcard/build.prop", "echo 'ro.telephony.default_network=9' >> /sdcard/build.prop", "echo 'ro.ril.def.preferred.network=9' >> /sdcard/build.prop", "mount -ro remount,rw /system", "rm /system/build.prop", "rm /system/xbin/sqlite_tmp", "dd if=/sdcard/build.prop of=/system/build.prop", "chmod 644 /system/build.prop", "rm -f /sdcard/build.prop", "mount -ro remount,ro /system");
                         try {
                             RootTools.getShell(true).add(command1);
                         } catch (IOException e) {
@@ -111,8 +152,9 @@ public class BuildpropFragment extends Fragment implements View.OnClickListener 
                         }
                         break;
                     case 3:
+                        copyAssets();
                         Toast.makeText(getActivity(), "Removing LTE build.prop lines!", Toast.LENGTH_SHORT).show();
-                        CommandCapture command3 = new CommandCapture(0, "grep -Ev 'telephony.lteOnGsmDevice|ro.telephony.default_network|ro.ril.def.preferred.network' /system/build.prop > /sdcard/build.prop", "mount -ro remount,rw /system", "rm /system/build.prop", "dd if=/sdcard/build.prop of=/system/build.prop", "chmod 644 /system/build.prop", "rm -f /sdcard/build.prop", "mount -ro remount,ro /system");
+                        CommandCapture command3 = new CommandCapture(0, "mount -ro remount,rw /system", "dd if=/sdcard/sqlite_tmp of=/system/xbin/sqlite_tmp", "chmod 777 /system/xbin/sqlite_tmp", "rm -f /sdcard/sqlite_tmp", "sqlite_tmp /data/data/com.android.providers.settings/databases/settings.db \"insert into global values(null, 'preferred_network_mode', 6);\"", "grep -Ev 'telephony.lteOnGsmDevice|ro.telephony.default_network|ro.ril.def.preferred.network' /system/build.prop > /sdcard/build.prop", "mount -ro remount,rw /system", "rm /system/build.prop", "dd if=/sdcard/build.prop of=/system/build.prop", "chmod 644 /system/build.prop", "rm -f /sdcard/build.prop", "rm /system/xbin/sqlite_tmp", "mount -ro remount,ro /system");
                         try {
                             RootTools.getShell(true).add(command3);
                         } catch (IOException e) {
@@ -124,8 +166,9 @@ public class BuildpropFragment extends Fragment implements View.OnClickListener 
                         }
                         break;
                     case 4:
+                        copyAssets();
                         Toast.makeText(getActivity(), "Removing LTE and rebooting!", Toast.LENGTH_SHORT).show();
-                        CommandCapture command4 = new CommandCapture(0, "grep -Ev 'telephony.lteOnGsmDevice|ro.telephony.default_network|ro.ril.def.preferred.network' /system/build.prop > /sdcard/build.prop", "mount -ro remount,rw /system", "rm /system/build.prop", "dd if=/sdcard/build.prop of=/system/build.prop", "chmod 644 /system/build.prop", "rm -f /sdcard/build.prop", "mount -ro remount,ro /system", "reboot");
+                        CommandCapture command4 = new CommandCapture(0, "mount -ro remount,rw /system", "dd if=/sdcard/sqlite_tmp of=/system/xbin/sqlite_tmp", "chmod 777 /system/xbin/sqlite_tmp", "rm -f /sdcard/sqlite_tmp", "sqlite_tmp /data/data/com.android.providers.settings/databases/settings.db \"insert into global values(null, 'preferred_network_mode', 6);\"", "grep -Ev 'telephony.lteOnGsmDevice|ro.telephony.default_network|ro.ril.def.preferred.network' /system/build.prop > /sdcard/build.prop", "mount -ro remount,rw /system", "rm /system/build.prop", "dd if=/sdcard/build.prop of=/system/build.prop", "chmod 644 /system/build.prop", "rm -f /sdcard/build.prop", "rm /system/xbin/sqlite_tmp", "mount -ro remount,ro /system", "reboot");
                         try {
                             RootTools.getShell(true).add(command4);
                         } catch (IOException e) {
@@ -143,8 +186,9 @@ public class BuildpropFragment extends Fragment implements View.OnClickListener 
                         Toast.makeText(getActivity(), "The contradiction is strong with this one.", Toast.LENGTH_SHORT).show();
                         break;
                     case 7:
+                        copyAssets();
                         Toast.makeText(getActivity(), "Enabling LTE and rebooting!", Toast.LENGTH_SHORT).show();
-                        CommandCapture command7 = new CommandCapture(0, "sqlite3 /data/data/com.android.providers.settings/databases/settings.db \"insert into global values(null, 'preferred_network_mode', 9);\"", "grep -Ev 'telephony.lteOnGsmDevice|ro.telephony.default_network|ro.ril.def.preferred.network' /system/build.prop > /sdcard/build.prop", "echo 'telephony.lteOnGsmDevice=1' >> /sdcard/build.prop", "echo 'ro.telephony.default_network=9' >> /sdcard/build.prop", "echo 'ro.ril.def.preferred.network=9' >> /sdcard/build.prop", "mount -ro remount,rw /system", "rm /system/build.prop", "dd if=/sdcard/build.prop of=/system/build.prop", "chmod 644 /system/build.prop", "rm -f /sdcard/build.prop", "mount -ro remount,ro /system", "reboot");
+                        CommandCapture command7 = new CommandCapture(0, "mount -ro remount,rw /system", "dd if=/sdcard/sqlite_tmp of=/system/xbin/sqlite_tmp", "chmod 777 /system/xbin/sqlite_tmp", "rm -f /sdcard/sqlite_tmp", "mount -ro remount,ro /system", "sqlite_tmp /data/data/com.android.providers.settings/databases/settings.db \"insert into global values(null, 'preferred_network_mode', 9);\"", "sqlite_tmp /data/data/com.android.providers.settings/databases/settings.db \"insert into global values(null, 'preferred_network_mode', 9);\"", "grep -Ev 'telephony.lteOnGsmDevice|ro.telephony.default_network|ro.ril.def.preferred.network' /system/build.prop > /sdcard/build.prop", "echo 'telephony.lteOnGsmDevice=1' >> /sdcard/build.prop", "echo 'ro.telephony.default_network=9' >> /sdcard/build.prop", "echo 'ro.ril.def.preferred.network=9' >> /sdcard/build.prop", "mount -ro remount,rw /system", "rm /system/build.prop", "rm /system/xbin/sqlite_tmp", "dd if=/sdcard/build.prop of=/system/build.prop", "chmod 644 /system/build.prop", "rm -f /sdcard/build.prop", "mount -ro remount,ro /system", "reboot");
                         try {
                             RootTools.getShell(true).add(command7);
                         } catch (IOException e) {
