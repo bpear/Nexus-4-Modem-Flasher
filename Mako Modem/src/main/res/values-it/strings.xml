@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Nexus 4 Flasher di Modem</string>
+    <string name="action_settings">Impostazioni</string>
+    <string name="action_about">Della Programma</string>
+    <string name="action_phone">*#*#INFORMAZIONI#*#*</string>
+    <string name="hello_world">Salve mondo!</string>
+    <string name="title_activity_stock">AttivitàPredefinita</string>
+    <string name="s98">0.98 Modem Predefinito</string>
+    <string name="s97">0.97 Modem Predefinito</string>
+    <string name="s84">0.84 Modem Predefinito</string>
+    <string name="s83">0.83 Modem Predefinito</string>
+    <string name="s54">0.54 Modem Predefinito</string>
+    <string name="s48">0.48 Modem Predefinito</string>
+    <string name="s33">0.33 Modem Predefinito</string>
+    <string name="s27">0.27 Modem Predefinito</string>
+    <string name="s24">0.24 Modem Predefinito</string>
+    <string name="h33_98">0.98 + 0.33 LTE Modem Ibrido</string>
+    <string name="h27_98">0.98 + 0.27 LTE Modem Ibrido</string>
+    <string name="h33_84">0.84 + 0.33 LTE Modem Ibrido</string>
+    <string name="h33_54">0.54 + 0.33 LTE Modem Ibrido</string>
+    <string name="h27_54">0.54 + 0.27 LTE Modem Ibrido</string>
+    <string name="sFlash_Button">Flash</string>
+    <string name="hFlash_Button">Flash</string>
+    <string name="LTEButton">Applicare</string>
+</resources>
