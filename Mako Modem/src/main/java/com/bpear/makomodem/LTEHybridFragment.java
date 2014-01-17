@@ -111,7 +111,7 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
                         BroadcastReceiver onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
                             public void onReceive(Context context, Intent intent) {
-                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock 0.98.zip' > /cache/recovery/command", "reboot recovery"); // add recovery install script commands and reboot
+                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE Hybrid 0.98 + 0.33.zip' > /cache/recovery/command", "reboot recovery"); // add recovery install script commands and reboot
                                 try {
                                     RootTools.getShell(true).add(command);
                                 } catch (IOException e) {
