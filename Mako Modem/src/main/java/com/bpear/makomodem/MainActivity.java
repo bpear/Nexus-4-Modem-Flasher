@@ -20,8 +20,10 @@ public class MainActivity extends FragmentActivity implements
 
     private ViewPager viewPager;
     private ActionBar actionBar;
+
     // Tab titles
-    private String[] tabs = { "Stock modems", "LTE hybrid modems", "Build.prop" };
+    private String[] tabs = {"Stock modems", "LTE hybrid modems", "Build.prop"};
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
@@ -29,13 +31,14 @@ public class MainActivity extends FragmentActivity implements
         inflater.inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             //case R.id.action_settings:
-                //openSettings();
-                //return true;
+            //openSettings();
+            //return true;
             case R.id.action_phone:
                 openTesting(); // *#*#4636#*#*
                 return true;
@@ -55,9 +58,9 @@ public class MainActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (RootTools.isAccessGiven()) {
-           // Do something maybe
+            // Do something maybe
         } else {
-            Toast.makeText(this,"You are not rooted!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You are not rooted!", Toast.LENGTH_SHORT).show();
         }
 
         // Initialization

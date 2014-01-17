@@ -23,20 +23,22 @@ import java.util.concurrent.TimeoutException;
 
 // Thanks to Stericson for RootTools project! https://code.google.com/p/roottools/
 
+
+
 public class BuildpropFragment extends Fragment implements View.OnClickListener {
     int type;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // inflate ...
-        View view = inflater.inflate(R.layout.fragment_buildprop,  container, false);
+        View view = inflater.inflate(R.layout.fragment_buildprop, container, false);
         assert view != null;
         Button b = (Button) view.findViewById(R.id.EnableLTE);
         b.setOnClickListener(this);
         return view;
     }
 
-    public void onActivityCreated (Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         Button cb1 = (CheckBox) getActivity().findViewById(R.id.checkBoxLTE);
@@ -56,29 +58,29 @@ public class BuildpropFragment extends Fragment implements View.OnClickListener 
         public void onClick(View v) {
 
             //xml find out which radio button has been checked ...
-            CheckBox cb1=(CheckBox)getActivity().findViewById(R.id.checkBoxLTE);
-            CheckBox cb3=(CheckBox)getActivity().findViewById(R.id.checkBoxNOLTE);
-            CheckBox cb2=(CheckBox)getActivity().findViewById(R.id.checkBoxReboot);
+            CheckBox cb1 = (CheckBox) getActivity().findViewById(R.id.checkBoxLTE);
+            CheckBox cb3 = (CheckBox) getActivity().findViewById(R.id.checkBoxNOLTE);
+            CheckBox cb2 = (CheckBox) getActivity().findViewById(R.id.checkBoxReboot);
 
-            if(cb1.isChecked() && !cb2.isChecked() && !cb3.isChecked()) {
+            if (cb1.isChecked() && !cb2.isChecked() && !cb3.isChecked()) {
                 type = 1;
             }
-            if(!cb1.isChecked() && cb2.isChecked() && !cb3.isChecked()) {
+            if (!cb1.isChecked() && cb2.isChecked() && !cb3.isChecked()) {
                 type = 2;
             }
-            if(!cb1.isChecked() && !cb2.isChecked() && cb3.isChecked()) {
+            if (!cb1.isChecked() && !cb2.isChecked() && cb3.isChecked()) {
                 type = 3;
             }
-            if(!cb1.isChecked() && cb2.isChecked() && cb3.isChecked()) {
+            if (!cb1.isChecked() && cb2.isChecked() && cb3.isChecked()) {
                 type = 4;
             }
-            if(cb1.isChecked() && cb2.isChecked() && cb3.isChecked()) {
+            if (cb1.isChecked() && cb2.isChecked() && cb3.isChecked()) {
                 type = 5;
             }
-            if(cb1.isChecked() && !cb2.isChecked() && cb3.isChecked()) {
+            if (cb1.isChecked() && !cb2.isChecked() && cb3.isChecked()) {
                 type = 6;
             }
-            if(cb1.isChecked() && cb2.isChecked() && !cb3.isChecked()) {
+            if (cb1.isChecked() && cb2.isChecked() && !cb3.isChecked()) {
                 type = 7;
             }
         }
@@ -93,19 +95,17 @@ public class BuildpropFragment extends Fragment implements View.OnClickListener 
             Log.e("tag", "Failed to get asset file list.", e);
         }
         assert files != null;
-        for(String filename : files) {
-            InputStream in = null;
-            OutputStream out = null;
+        for (String filename : files) {
+            InputStream in;
+            OutputStream out;
             try {
                 in = assetManager.open(filename);
                 out = new FileOutputStream("/sdcard/" + filename);
                 copyFile(in, out);
                 in.close();
-                in = null;
                 out.flush();
                 out.close();
-                out = null;
-            } catch(IOException e) {
+            } catch (IOException e) {
                 Log.e("tag", "Failed to copy asset file: " + filename, e);
             }
         }
@@ -114,7 +114,7 @@ public class BuildpropFragment extends Fragment implements View.OnClickListener 
     private void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int read;
-        while((read = in.read(buffer)) != -1){
+        while ((read = in.read(buffer)) != -1) {
             out.write(buffer, 0, read);
         }
     }
@@ -124,7 +124,7 @@ public class BuildpropFragment extends Fragment implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.EnableLTE:
                 switch (type) {
-                    case 1:
+                    case 1: // Enable LTE is checked
                         copyAssets();
                         Toast.makeText(getActivity(), "Takes effect on reboot.", Toast.LENGTH_SHORT).show();
                         CommandCapture command1 = new CommandCapture(0, "mount -ro remount,rw /system", "dd if=/sdcard/sqlite3 of=/system/xbin/sqlite_tmp", "chmod 777 /system/xbin/sqlite_tmp", "rm -f /sdcard/sqlite3", "mount -ro remount,ro /system", "sqlite_tmp /data/data/com.android.providers.settings/databases/settings.db \"insert into global values(null, 'preferred_network_mode', 9);\"", "grep -Ev 'telephony.lteOnGsmDevice|ro.telephony.default_network|ro.ril.def.preferred.network' /system/build.prop > /sdcard/build.prop", "echo 'telephony.lteOnGsmDevice=1' >> /sdcard/build.prop", "echo 'ro.telephony.default_network=9' >> /sdcard/build.prop", "echo 'ro.ril.def.preferred.network=9' >> /sdcard/build.prop", "mount -ro remount,rw /system", "rm /system/build.prop", "rm /system/xbin/sqlite_tmp", "dd if=/sdcard/build.prop of=/system/build.prop", "chmod 644 /system/build.prop", "rm -f /sdcard/build.prop", "mount -ro remount,ro /system");
@@ -138,7 +138,7 @@ public class BuildpropFragment extends Fragment implements View.OnClickListener 
                             e.printStackTrace();
                         }
                         break;
-                    case 2:
+                    case 2: // Only reboot is checked
                         Toast.makeText(getActivity(), "I think there are easier ways to reboot your phone...", Toast.LENGTH_SHORT).show();
                         CommandCapture command2 = new CommandCapture(0, "reboot");
                         try {
@@ -151,7 +151,7 @@ public class BuildpropFragment extends Fragment implements View.OnClickListener 
                             e.printStackTrace();
                         }
                         break;
-                    case 3:
+                    case 3: // Remove LTE is checked
                         copyAssets();
                         Toast.makeText(getActivity(), "Removing LTE build.prop lines!", Toast.LENGTH_SHORT).show();
                         CommandCapture command3 = new CommandCapture(0, "mount -ro remount,rw /system", "dd if=/sdcard/sqlite3 of=/system/xbin/sqlite_tmp", "chmod 777 /system/xbin/sqlite_tmp", "rm -f /sdcard/sqlite3", "sqlite_tmp /data/data/com.android.providers.settings/databases/settings.db \"insert into global values(null, 'preferred_network_mode', 0);\"", "grep -Ev 'telephony.lteOnGsmDevice|ro.telephony.default_network|ro.ril.def.preferred.network' /system/build.prop > /sdcard/build.prop", "mount -ro remount,rw /system", "rm /system/build.prop", "dd if=/sdcard/build.prop of=/system/build.prop", "chmod 644 /system/build.prop", "rm -f /sdcard/build.prop", "rm /system/xbin/sqlite_tmp", "mount -ro remount,ro /system");
@@ -165,7 +165,7 @@ public class BuildpropFragment extends Fragment implements View.OnClickListener 
                             e.printStackTrace();
                         }
                         break;
-                    case 4:
+                    case 4: // Remove LTE + Reboot is checked
                         copyAssets();
                         Toast.makeText(getActivity(), "Removing LTE and rebooting!", Toast.LENGTH_SHORT).show();
                         CommandCapture command4 = new CommandCapture(0, "mount -ro remount,rw /system", "dd if=/sdcard/sqlite3 of=/system/xbin/sqlite_tmp", "chmod 777 /system/xbin/sqlite_tmp", "rm -f /sdcard/sqlite3", "sqlite_tmp /data/data/com.android.providers.settings/databases/settings.db \"insert into global values(null, 'preferred_network_mode', 0);\"", "grep -Ev 'telephony.lteOnGsmDevice|ro.telephony.default_network|ro.ril.def.preferred.network' /system/build.prop > /sdcard/build.prop", "mount -ro remount,rw /system", "rm /system/build.prop", "dd if=/sdcard/build.prop of=/system/build.prop", "chmod 644 /system/build.prop", "rm -f /sdcard/build.prop", "rm /system/xbin/sqlite_tmp", "mount -ro remount,ro /system", "reboot");
@@ -179,13 +179,13 @@ public class BuildpropFragment extends Fragment implements View.OnClickListener 
                             e.printStackTrace();
                         }
                         break;
-                    case 5:
+                    case 5: // All 3 are checked
                         Toast.makeText(getActivity(), "All 3? Take 2, you greedy person!", Toast.LENGTH_SHORT).show();
                         break;
-                    case 6:
+                    case 6: // Disable and Enable LTE are checked
                         Toast.makeText(getActivity(), "The contradiction is strong with this one.", Toast.LENGTH_SHORT).show();
                         break;
-                    case 7:
+                    case 7: // Enable LTE and reboot are checked
                         copyAssets();
                         Toast.makeText(getActivity(), "Enabling LTE and rebooting!", Toast.LENGTH_SHORT).show();
                         CommandCapture command7 = new CommandCapture(0, "mount -ro remount,rw /system", "dd if=/sdcard/sqlite3 of=/system/xbin/sqlite_tmp", "chmod 777 /system/xbin/sqlite_tmp", "rm -f /sdcard/sqlite3", "mount -ro remount,ro /system", "sqlite_tmp /data/data/com.android.providers.settings/databases/settings.db \"insert into global values(null, 'preferred_network_mode', 9);\"", "sqlite_tmp /data/data/com.android.providers.settings/databases/settings.db \"insert into global values(null, 'preferred_network_mode', 9);\"", "grep -Ev 'telephony.lteOnGsmDevice|ro.telephony.default_network|ro.ril.def.preferred.network' /system/build.prop > /sdcard/build.prop", "echo 'telephony.lteOnGsmDevice=1' >> /sdcard/build.prop", "echo 'ro.telephony.default_network=9' >> /sdcard/build.prop", "echo 'ro.ril.def.preferred.network=9' >> /sdcard/build.prop", "mount -ro remount,rw /system", "rm /system/build.prop", "rm /system/xbin/sqlite_tmp", "dd if=/sdcard/build.prop of=/system/build.prop", "chmod 644 /system/build.prop", "rm -f /sdcard/build.prop", "mount -ro remount,ro /system", "reboot");

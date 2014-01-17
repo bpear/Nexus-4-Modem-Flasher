@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-// Thanks to Stericson for RootTools project! https://code.google.com/p/roottools/
 import com.stericson.RootTools.RootTools;
 import com.stericson.RootTools.exceptions.RootDeniedException;
 import com.stericson.RootTools.execution.CommandCapture;
@@ -23,21 +22,25 @@ import com.stericson.RootTools.execution.CommandCapture;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
+// Thanks to Stericson for RootTools project! https://code.google.com/p/roottools/
+
+
+
 public class StockModemFragment extends Fragment implements View.OnClickListener {
     int type;
     String url, zipname;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // inflate ...
-        View view = inflater.inflate(R.layout.fragment_stock,  container, false);
+        View view = inflater.inflate(R.layout.fragment_stock, container, false);
         assert view != null;
         Button b = (Button) view.findViewById(R.id.sFlash_Button);
         b.setOnClickListener(this); // listen for "Flash" button click
         return view;
     }
 
-    public void onActivityCreated (Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
 
@@ -73,40 +76,40 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
         public void onClick(View v) {
 
             //xml find out which radio button has been checked ...
-            RadioButton rb1=(RadioButton)getActivity().findViewById(R.id.radio_s98);  //Link buttons
-            RadioButton rb2=(RadioButton)getActivity().findViewById(R.id.radio_s97);
-            RadioButton rb3=(RadioButton)getActivity().findViewById(R.id.radio_s84);
-            RadioButton rb4=(RadioButton)getActivity().findViewById(R.id.radio_s83);
-            RadioButton rb5=(RadioButton)getActivity().findViewById(R.id.radio_s54);
-            RadioButton rb6=(RadioButton)getActivity().findViewById(R.id.radio_s48);
-            RadioButton rb7=(RadioButton)getActivity().findViewById(R.id.radio_s33);
-            RadioButton rb8=(RadioButton)getActivity().findViewById(R.id.radio_s27);
-            RadioButton rb9=(RadioButton)getActivity().findViewById(R.id.radio_s24);
-            if(rb1.isChecked()) { // check which radio button is checked
+            RadioButton rb1 = (RadioButton) getActivity().findViewById(R.id.radio_s98);  //Link buttons
+            RadioButton rb2 = (RadioButton) getActivity().findViewById(R.id.radio_s97);
+            RadioButton rb3 = (RadioButton) getActivity().findViewById(R.id.radio_s84);
+            RadioButton rb4 = (RadioButton) getActivity().findViewById(R.id.radio_s83);
+            RadioButton rb5 = (RadioButton) getActivity().findViewById(R.id.radio_s54);
+            RadioButton rb6 = (RadioButton) getActivity().findViewById(R.id.radio_s48);
+            RadioButton rb7 = (RadioButton) getActivity().findViewById(R.id.radio_s33);
+            RadioButton rb8 = (RadioButton) getActivity().findViewById(R.id.radio_s27);
+            RadioButton rb9 = (RadioButton) getActivity().findViewById(R.id.radio_s24);
+            if (rb1.isChecked()) { // check which radio button is checked
                 type = 1;
             }
-            if(rb2.isChecked()) {
+            if (rb2.isChecked()) {
                 type = 2;
             }
-            if(rb3.isChecked()) {
+            if (rb3.isChecked()) {
                 type = 3;
             }
-            if(rb4.isChecked()) {
+            if (rb4.isChecked()) {
                 type = 4;
             }
-            if(rb5.isChecked()) {
+            if (rb5.isChecked()) {
                 type = 5;
             }
-            if(rb6.isChecked()) {
+            if (rb6.isChecked()) {
                 type = 6;
             }
-            if(rb7.isChecked()) {
+            if (rb7.isChecked()) {
                 type = 7;
             }
-            if(rb8.isChecked()) {
+            if (rb8.isChecked()) {
                 type = 8;
             }
-            if(rb9.isChecked()) {
+            if (rb9.isChecked()) {
                 type = 9;
             }
         }
