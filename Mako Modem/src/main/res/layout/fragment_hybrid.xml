@@ -36,6 +36,18 @@
             android:text="@string/h27_98"  />
 
         <RadioButton
+            android:id="@+id/radio_h33_97"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/h33_97"/>
+
+        <RadioButton
+            android:id="@+id/radio_h27_97"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/h27_97"  />
+
+        <RadioButton
             android:id="@+id/radio_h33_84"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

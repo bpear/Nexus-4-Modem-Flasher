@@ -58,6 +58,12 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
 
         Button rb5 = (Button) getActivity().findViewById(R.id.radio_h27_54);
         rb5.setOnClickListener(next_Listener);
+
+        Button rb6 = (Button) getActivity().findViewById(R.id.radio_h33_97);
+        rb6.setOnClickListener(next_Listener);
+
+        Button rb7 = (Button) getActivity().findViewById(R.id.radio_h27_97);
+        rb7.setOnClickListener(next_Listener);
     }
 
     private View.OnClickListener next_Listener = new View.OnClickListener() {
@@ -69,6 +75,8 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
             RadioButton rb3 = (RadioButton) getActivity().findViewById(R.id.radio_h33_84);
             RadioButton rb4 = (RadioButton) getActivity().findViewById(R.id.radio_h33_54);
             RadioButton rb5 = (RadioButton) getActivity().findViewById(R.id.radio_h27_54);
+            RadioButton rb6 = (RadioButton) getActivity().findViewById(R.id.radio_h33_97);
+            RadioButton rb7 = (RadioButton) getActivity().findViewById(R.id.radio_h27_97);
             if (rb1.isChecked()) { // If button 1 is checked set type int to 1
                 type = 1;
             }
@@ -83,6 +91,12 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
             }
             if (rb5.isChecked()) {
                 type = 5;
+            }
+            if (rb6.isChecked()) {
+                type = 6;
+            }
+            if (rb7.isChecked()) {
+                type = 7;
             }
         }
     };
@@ -208,6 +222,54 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
                             @Override
                             public void onReceive(Context context, Intent intent) {
                                 CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE Hybrid 0.54 + 0.27.zip' > /cache/recovery/command", "reboot recovery");
+                                try {
+                                    RootTools.getShell(true).add(command);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (TimeoutException e) {
+                                    e.printStackTrace();
+                                } catch (RootDeniedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        };
+
+                        getActivity().registerReceiver(onComplete, new IntentFilter(
+                                DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+                        break;
+
+                    case 6:
+                        url = "http://puu.sh/6oqf9.zip";
+                        zipname = "LTE Hybrid 0.97 + 0.33.zip";
+                        modemDownload();
+                        onComplete = new BroadcastReceiver() { //Check if download is done
+                            @Override
+                            public void onReceive(Context context, Intent intent) {
+                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE Hybrid 0.97 + 0.33.zip' > /cache/recovery/command", "reboot recovery");
+                                try {
+                                    RootTools.getShell(true).add(command);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (TimeoutException e) {
+                                    e.printStackTrace();
+                                } catch (RootDeniedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        };
+
+                        getActivity().registerReceiver(onComplete, new IntentFilter(
+                                DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+                        break;
+
+                    case 7:
+                        url = "http://puu.sh/6oqdi.zip";
+                        zipname = "LTE Hybrid 0.97 + 0.27.zip";
+                        modemDownload();
+                        onComplete = new BroadcastReceiver() { //Check if download is done
+                            @Override
+                            public void onReceive(Context context, Intent intent) {
+                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE Hybrid 0.97 + 0.27.zip' > /cache/recovery/command", "reboot recovery");
                                 try {
                                     RootTools.getShell(true).add(command);
                                 } catch (IOException e) {

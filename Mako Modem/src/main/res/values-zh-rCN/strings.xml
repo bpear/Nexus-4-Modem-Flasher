@@ -18,6 +18,8 @@
     <string name="s24">0.24 原厂基带</string>
     <string name="h33_98">0.98 + 0.33 LTE 混合基带</string>
     <string name="h27_98">0.98 + 0.27 LTE 混合基帶</string>
+    <string name="h33_97">0.97 + 0.33 LTE 混合基帶</string>
+    <string name="h27_97">0.97 + 0.27 LTE 混合基帶</string>
     <string name="h33_84">0.84 + 0.33 LTE 混合基帶</string>
     <string name="h33_54">0.54 + 0.33 LTE 混合基帶</string>
     <string name="h27_54">0.54 + 0.27 LTE 混合基帶</string>
