@@ -26,4 +26,5 @@
     <string name="sFlash_Button">Flash</string>
     <string name="hFlash_Button">Flash</string>
     <string name="LTEButton">Apply</string>
+    <string name="Keep">Delete modem file after flash?</string>
 </resources>
