@@ -5,10 +5,11 @@
     android:orientation="vertical">
 
     <TextView
+        style="?android:listSeparatorTextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Select options to apply:"
+        android:text="@string/options_apply"
         android:id="@+id/textView5"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
@@ -17,7 +18,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enable LTE"
+        android:text="@string/EnableLTE"
         android:id="@+id/checkBoxLTE"
         android:checked="false"
         android:layout_below="@+id/textView5"
@@ -26,7 +27,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Reboot now"
+        android:text="@string/RebootNow"
         android:id="@+id/checkBoxReboot"
         android:checked="false"
         android:layout_below="@+id/checkBoxNOLTE" />
@@ -34,7 +35,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Disable LTE"
+        android:text="@string/DisableLTE"
         android:id="@+id/checkBoxNOLTE"
         android:checked="false"
         android:layout_below="@+id/checkBoxLTE"
@@ -53,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="LTE Hybrid Modem needed"
+        android:text="@string/warning"
         android:id="@+id/textView3"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="1dp"

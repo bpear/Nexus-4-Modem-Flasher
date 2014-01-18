@@ -26,5 +26,11 @@
     <string name="sFlash_Button">Flash</string>
     <string name="hFlash_Button">Flash</string>
     <string name="LTEButton">Apply</string>
-    <string name="Keep">Delete modem file after flash?</string>
+    <string name="Keep">&#160;&#160;Delete modem file after flash?</string>
+    <string name="selectModem">Select the modem you want below:</string>
+    <string name="options_apply">Select options to apply:</string>
+    <string name="EnableLTE">Enable LTE</string>
+    <string name="RebootNow">Reboot now</string>
+    <string name="DisableLTE">Disable LTE</string>
+    <string name="warning">LTE Hybrid Modem needed</string>
 </resources>

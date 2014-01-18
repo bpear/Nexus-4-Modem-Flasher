@@ -5,10 +5,12 @@
     android:orientation="vertical">
 
     <TextView
+        style="?android:listSeparatorTextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Select the modem you want below and hit flash"
+        android:textAppearance="@android:style/TextAppearance.DialogWindowTitle"
+        android:text="@string/selectModem"
+        android:textStyle="bold"
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:autoText="false"
@@ -21,17 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true">
-
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Keep"
-            android:textOn="YES"
-            android:textOff="NO"
-            android:id="@+id/switchKeep"
-            android:layout_alignParentStart="true"
-            android:checked="false" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true">
 
         <RadioButton
             android:id="@+id/radio_s98"
@@ -87,15 +80,25 @@
             android:layout_height="wrap_content"
             android:text="@string/s24"  />
 
-    </RadioGroup>
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Keep"
+            android:textOn="YES"
+            android:textOff="NO"
+            android:id="@+id/switchKeep"
+            android:layout_alignParentStart="true"
+            android:checked="false" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sFlash_Button"
-        android:id="@+id/sFlash_Button"
-        android:layout_below="@+id/radio_grp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sFlash_Button"
+            android:id="@+id/sFlash_Button"
+            android:layout_below="@+id/radio_grp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true" />
+
+    </RadioGroup>
 
 </RelativeLayout>
