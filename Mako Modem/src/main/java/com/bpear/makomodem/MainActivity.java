@@ -2,8 +2,15 @@ package com.bpear.makomodem;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -14,9 +21,16 @@ import android.widget.Toast;
 
 import com.bpear.makomodem.adapter.TabsPagerAdapter;
 import com.stericson.RootTools.RootTools;
+import com.stericson.RootTools.exceptions.RootDeniedException;
+import com.stericson.RootTools.execution.CommandCapture;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 public class MainActivity extends FragmentActivity implements
         ActionBar.TabListener {
+
+    String url, filename;
 
     private ViewPager viewPager;
     private ActionBar actionBar;
@@ -36,9 +50,9 @@ public class MainActivity extends FragmentActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            //case R.id.action_settings:
-            //openSettings();
-            //return true;
+            case R.id.action_twrp:
+                openTWRP();
+                return true;
             case R.id.action_phone:
                 openTesting(); // *#*#4636#*#*
                 return true;
@@ -51,6 +65,60 @@ public class MainActivity extends FragmentActivity implements
         Intent in = new Intent(Intent.ACTION_MAIN);
         in.setClassName("com.android.settings", "com.android.settings.TestingSettings");
         startActivity(in);
+    }
+
+    public void imgDownload() { // Download modem function
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+
+        request.allowScanningByMediaScanner();
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+        request.setDestinationInExternalPublicDir("/Modems", filename);
+
+        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE); // get download service and enqueue file
+        manager.enqueue(request);
+    }
+
+    protected void openTWRP() { // Installs TWRP recovery
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        url = "https://rebel-rom.googlecode.com/files/openrecovery-twrp-2.6.3.3-mako.img";
+                        filename = "openrecovery-twrp-2.6.3.3-mako.img";
+                        imgDownload();
+                        BroadcastReceiver onComplete = new BroadcastReceiver() { //Check if download is done
+                            @Override
+                            public void onReceive(Context context, Intent intent) {
+                                CommandCapture command = new CommandCapture(0, "dd if=/sdcard/Modems/openrecovery-twrp-2.6.3.3-mako.img of=/dev/block/mmcblk0p7", "rm -f /sdcard/Modems/openrecovery-twrp-2.6.3.3-mako.img");
+                                try {
+                                    RootTools.getShell(true).add(command); // run command with SU privileges
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (TimeoutException e) {
+                                    e.printStackTrace();
+                                } catch (RootDeniedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        };
+
+                        registerReceiver(onComplete, new IntentFilter(
+                                DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("This will install TeamWin Recovery onto your device. Do you want to continue?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
     }
 
     @Override
