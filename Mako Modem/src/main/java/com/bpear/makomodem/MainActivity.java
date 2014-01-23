@@ -212,6 +212,10 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void onBackPressed() {
-        viewPager.setCurrentItem(position - 1, true);
+        if (position > 0) {
+            viewPager.setCurrentItem(position - 1, true); // Move position back 1 tab
+        } else {
+            moveTaskToBack(true); // Keep app open in background
+        }
     }
 }
