@@ -31,6 +31,7 @@ public class MainActivity extends FragmentActivity implements
         ActionBar.TabListener {
 
     String url, filename;
+    int position;
 
     private ViewPager viewPager;
     private ActionBar actionBar;
@@ -177,6 +178,7 @@ public class MainActivity extends FragmentActivity implements
         // on tab selected
         // show respected fragment view
         viewPager.setCurrentItem(tab.getPosition());
+        position = tab.getPosition();
     }
 
     @Override
@@ -185,6 +187,6 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void onBackPressed() {
-        moveTaskToBack(true); // Keep app open in background
+        viewPager.setCurrentItem(position - 1, true);
     }
 }
