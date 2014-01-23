@@ -132,6 +132,31 @@ public class MainActivity extends FragmentActivity implements
             Toast.makeText(this, "You are not rooted!", Toast.LENGTH_SHORT).show();
         }
 
+        // Check if app is running on Nexus 4
+        if (android.os.Build.MODEL.equals("Nexus 4")) {
+            Toast.makeText(this, "Your device: Nexus 4", Toast.LENGTH_SHORT).show();
+        } else {
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            //Yes button clicked
+                            finish();
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("It appears that you are not using a Nexus 4. Using this app could harm your device. Do you want to exit now?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+        }
+
         // Initialization
         viewPager = (ViewPager) findViewById(R.id.pager);
         actionBar = getActionBar();
