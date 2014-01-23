@@ -183,4 +183,8 @@ public class MainActivity extends FragmentActivity implements
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
     }
 
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true); // Keep app open in background
+    }
 }
