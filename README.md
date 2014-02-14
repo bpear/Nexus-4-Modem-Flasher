@@ -1,6 +1,6 @@
 Nexus-4-Modem-Flasher
 =====================
-Avalible on Google Play: https://play.google.com/store/apps/details?id=com.bpear.makomodem 
+Available on Google Play: https://play.google.com/store/apps/details?id=com.bpear.makomodem 
 
 XDA thread: http://forum.xda-developers.com/showthread.php?p=49351488
 
