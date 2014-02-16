@@ -22,6 +22,7 @@ import com.stericson.RootTools.exceptions.RootDeniedException;
 import com.stericson.RootTools.execution.CommandCapture;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.concurrent.TimeoutException;
 
 // Thanks to Stericson for RootTools project! https://code.google.com/p/roottools/
@@ -31,6 +32,8 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
 
     int type;
     int keep = 1;
+    Random r = new Random();
+    int mirror = r.nextInt(3 - 1 + 1) + 1;
     String url, zipname;
 
     @Override
@@ -284,7 +287,11 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
                         break;
 
                     case 6:
+                        if (mirror == 2) {
                         url = "http://puu.sh/6oqf9.zip";
+                        } else {
+                        url = "http://goo.gl/uOQu6X";
+                        }
                         zipname = "LTE_Hybrid_0.97_+_0.33.zip";
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
@@ -314,7 +321,11 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
                         break;
 
                     case 7:
+                        if (mirror == 2) {
                         url = "http://puu.sh/6oqdi.zip";
+                        } else {
+                        url = "http://goo.gl/APoHBH";
+                        }
                         zipname = "LTE_Hybrid_0.97_+_0.27.zip";
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
