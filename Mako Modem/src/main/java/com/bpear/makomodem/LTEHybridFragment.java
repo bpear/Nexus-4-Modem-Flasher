@@ -21,6 +21,7 @@ import com.stericson.RootTools.RootTools;
 import com.stericson.RootTools.exceptions.RootDeniedException;
 import com.stericson.RootTools.execution.CommandCapture;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.TimeoutException;
@@ -33,6 +34,8 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
     int type;
     int keep = 1;
     Random r = new Random();
+    CommandCapture command;
+    CommandCapture command2;
     int mirror = r.nextInt(3 - 1 + 1) + 1;
     String url, zipname;
 
@@ -120,15 +123,39 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
     };
 
     public void modemDownload() { // Download modem function
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        String file = android.os.Environment.getExternalStorageDirectory().getPath() + "/Modems/" + zipname;
+        File f = new File(file);
+        if (f.exists()) { // Check if file exists, and flash without downloading
+            Toast.makeText(getActivity(), "File already exists", Toast.LENGTH_SHORT).show();
+            flashModem();
+        } else { // run if file does not exist
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
 
-        request.allowScanningByMediaScanner();
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.allowScanningByMediaScanner();
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
-        request.setDestinationInExternalPublicDir("/Modems", zipname);
+            request.setDestinationInExternalPublicDir("/Modems", zipname);
 
-        DownloadManager manager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE); // get download service and enqueue file
-        manager.enqueue(request);
+            DownloadManager manager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE); // get download service and enqueue file
+            manager.enqueue(request);
+        }
+    }
+
+    public void flashModem() {
+        try {
+            if (keep == 1) { // check if user wants to keep or delete modem file.
+                RootTools.getShell(true).add(command); // run command with SU privileges
+            } else {
+                RootTools.getShell(true).add(command2); // run command with SU privileges
+            }
+            RootTools.getShell(true).add(command);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        } catch (RootDeniedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void onClick(View v) {
@@ -139,26 +166,13 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
                     case 1:
                         url = "https://rebel-rom.googlecode.com/files/98-33.zip";
                         zipname = "LTE_Hybrid_0.98_+_0.33.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.98_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // add recovery install script commands and reboot
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.98_+_0.33.zip of=/cache/recovery/LTE_Hybrid_0.98_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_0.98_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.98_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload(); // Start download
                         BroadcastReceiver onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
                             public void onReceive(Context context, Intent intent) {
-                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.98_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // add recovery install script commands and reboot
-                                CommandCapture command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.98_+_0.33.zip of=/cache/recovery/LTE_Hybrid_0.98_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_0.98_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.98_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
-                                try {
-                                    if (keep == 1) {
-                                        RootTools.getShell(true).add(command); // run command with SU privileges
-                                    } else {
-                                        RootTools.getShell(true).add(command2); // run command with SU privileges
-                                    }
-                                    RootTools.getShell(true).add(command);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (TimeoutException e) {
-                                    e.printStackTrace();
-                                } catch (RootDeniedException e) {
-                                    e.printStackTrace();
-                                }
+                                flashModem();
                             }
                         };
 
@@ -169,28 +183,16 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
                     case 2:
                         url = "http://rebel-rom.googlecode.com/files/98-27.zip";
                         zipname = "LTE_Hybrid_0.98_+_0.27.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.98_+_0.27.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.98_+_0.27.zip of=/cache/recovery/LTE_Hybrid_0.98_+_0.27.zip", "rm /sdcard/Modems/LTE_Hybrid_0.98_+_0.27.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.98_+_0.27.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
                             public void onReceive(Context context, Intent intent) {
-                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.98_+_0.27.zip' > /cache/recovery/command", "reboot recovery");
-                                CommandCapture command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.98_+_0.27.zip of=/cache/recovery/LTE_Hybrid_0.98_+_0.27.zip", "rm /sdcard/Modems/LTE_Hybrid_0.98_+_0.27.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.98_+_0.27.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
-                                try {
-                                    if (keep == 1) {
-                                        RootTools.getShell(true).add(command); // run command with SU privileges
-                                    } else {
-                                        RootTools.getShell(true).add(command2); // run command with SU privileges
-                                    }
-                                    RootTools.getShell(true).add(command);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (TimeoutException e) {
-                                    e.printStackTrace();
-                                } catch (RootDeniedException e) {
-                                    e.printStackTrace();
-                                }
+                                flashModem();
                             }
                         };
+
 
                         getActivity().registerReceiver(onComplete, new IntentFilter(
                                 DownloadManager.ACTION_DOWNLOAD_COMPLETE));
@@ -199,26 +201,13 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
                     case 3:
                         url = "https://rebel-rom.googlecode.com/files/LTEhybrid33-84.zip";
                         zipname = "LTE_Hybrid_0.84_+_0.33.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.84_+_0.33.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.84_+_0.33.zip of=/cache/recovery/LTE_Hybrid_0.84_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_0.84_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.84_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
                             public void onReceive(Context context, Intent intent) {
-                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.84_+_0.33.zip' > /cache/recovery/command", "reboot recovery");
-                                CommandCapture command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.84_+_0.33.zip of=/cache/recovery/LTE_Hybrid_0.84_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_0.84_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.84_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
-                                try {
-                                    if (keep == 1) {
-                                        RootTools.getShell(true).add(command); // run command with SU privileges
-                                    } else {
-                                        RootTools.getShell(true).add(command2); // run command with SU privileges
-                                    }
-                                    RootTools.getShell(true).add(command);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (TimeoutException e) {
-                                    e.printStackTrace();
-                                } catch (RootDeniedException e) {
-                                    e.printStackTrace();
-                                }
+                                flashModem();
                             }
                         };
 
@@ -229,26 +218,13 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
                     case 4:
                         url = "http://rebel-rom.googlecode.com/files/LTEhybrid33-54.zip";
                         zipname = "LTE_Hybrid_0.54_+_0.33.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.54_+_0.33.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.54_+_0.33.zip of=/cache/recovery/LTE_Hybrid_0.54_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_0.54_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.54_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
                             public void onReceive(Context context, Intent intent) {
-                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.54_+_0.33.zip' > /cache/recovery/command", "reboot recovery");
-                                CommandCapture command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.54_+_0.33.zip of=/cache/recovery/LTE_Hybrid_0.54_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_0.54_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.54_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
-                                try {
-                                    if (keep == 1) {
-                                        RootTools.getShell(true).add(command); // run command with SU privileges
-                                    } else {
-                                        RootTools.getShell(true).add(command2); // run command with SU privileges
-                                    }
-                                    RootTools.getShell(true).add(command);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (TimeoutException e) {
-                                    e.printStackTrace();
-                                } catch (RootDeniedException e) {
-                                    e.printStackTrace();
-                                }
+                                flashModem();
                             }
                         };
 
@@ -259,26 +235,13 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
                     case 5:
                         url = "http://rebel-rom.googlecode.com/files/LTEhybrid27-54.zip";
                         zipname = "LTE_Hybrid_0.54_+_0.27.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.54_+_0.27.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.54_+_0.27.zip of=/cache/recovery/LTE_Hybrid_0.54_+_0.27.zip", "rm /sdcard/Modems/LTE_Hybrid_0.54_+_0.27.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.54_+_0.27.zip > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
                             public void onReceive(Context context, Intent intent) {
-                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.54_+_0.27.zip' > /cache/recovery/command", "reboot recovery");
-                                CommandCapture command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.54_+_0.27.zip of=/cache/recovery/LTE_Hybrid_0.54_+_0.27.zip", "rm /sdcard/Modems/LTE_Hybrid_0.54_+_0.27.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.54_+_0.27.zip > /cache/recovery/command", "reboot recovery"); // Flash and delete
-                                try {
-                                    if (keep == 1) {
-                                        RootTools.getShell(true).add(command); // run command with SU privileges
-                                    } else {
-                                        RootTools.getShell(true).add(command2); // run command with SU privileges
-                                    }
-                                    RootTools.getShell(true).add(command);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (TimeoutException e) {
-                                    e.printStackTrace();
-                                } catch (RootDeniedException e) {
-                                    e.printStackTrace();
-                                }
+                                flashModem();
                             }
                         };
 
@@ -288,31 +251,18 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
 
                     case 6:
                         if (mirror == 2) {
-                        url = "http://solidservers.us/bpear/W97C33O97.zip"; // .97/.33
+                            url = "http://solidservers.us/bpear/W97C33O97.zip";
                         } else {
-                        url = "http://goo.gl/uOQu6X";
+                            url = "http://goo.gl/uOQu6X";
                         }
                         zipname = "LTE_Hybrid_0.97_+_0.33.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.97_+_0.33.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.97_+_0.33.zip of=/cache/recovery/LTE_Hybrid_0.97_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_0.97_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.97_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
                             public void onReceive(Context context, Intent intent) {
-                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.97_+_0.33.zip' > /cache/recovery/command", "reboot recovery");
-                                CommandCapture command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.97_+_0.33.zip of=/cache/recovery/LTE_Hybrid_0.97_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_0.97_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.97_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
-                                try {
-                                    if (keep == 1) {
-                                        RootTools.getShell(true).add(command); // run command with SU privileges
-                                    } else {
-                                        RootTools.getShell(true).add(command2); // run command with SU privileges
-                                    }
-                                    RootTools.getShell(true).add(command);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (TimeoutException e) {
-                                    e.printStackTrace();
-                                } catch (RootDeniedException e) {
-                                    e.printStackTrace();
-                                }
+                                flashModem();
                             }
                         };
 
@@ -322,31 +272,18 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
 
                     case 7:
                         if (mirror == 2) {
-                        url = "http://solidservers.us/bpear/W97C27MO97.zip"; // .97/.27
+                            url = "http://solidservers.us/bpear/W97C27MO97.zip";
                         } else {
-                        url = "http://goo.gl/APoHBH";
+                            url = "http://goo.gl/APoHBH";
                         }
                         zipname = "LTE_Hybrid_0.97_+_0.27.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.97_+_0.27.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.97_+_0.27.zip of=/cache/recovery/LTE_Hybrid_0.97_+_0.27.zip", "rm /sdcard/Modems/LTE_Hybrid_0.97_+_0.27.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.97_+_0.27.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
                             public void onReceive(Context context, Intent intent) {
-                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.97_+_0.27.zip' > /cache/recovery/command", "reboot recovery");
-                                CommandCapture command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.97_+_0.27.zip of=/cache/recovery/LTE_Hybrid_0.97_+_0.27.zip", "rm /sdcard/Modems/LTE_Hybrid_0.97_+_0.27.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.97_+_0.27.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
-                                try {
-                                    if (keep == 1) {
-                                        RootTools.getShell(true).add(command); // run command with SU privileges
-                                    } else {
-                                        RootTools.getShell(true).add(command2); // run command with SU privileges
-                                    }
-                                    RootTools.getShell(true).add(command);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (TimeoutException e) {
-                                    e.printStackTrace();
-                                } catch (RootDeniedException e) {
-                                    e.printStackTrace();
-                                }
+                                flashModem();
                             }
                         };
 

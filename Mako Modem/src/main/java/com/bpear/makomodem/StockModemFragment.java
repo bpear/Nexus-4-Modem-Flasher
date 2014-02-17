@@ -21,6 +21,7 @@ import com.stericson.RootTools.RootTools;
 import com.stericson.RootTools.exceptions.RootDeniedException;
 import com.stericson.RootTools.execution.CommandCapture;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
@@ -30,6 +31,8 @@ import java.util.concurrent.TimeoutException;
 public class StockModemFragment extends Fragment implements View.OnClickListener {
     int type;
     int keep = 1;
+    CommandCapture command;
+    CommandCapture command2;
     String url, zipname;
 
     @Override
@@ -131,15 +134,39 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
     };
 
     public void modemDownload() { // Download modem function
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        String file = android.os.Environment.getExternalStorageDirectory().getPath() + "/Modems/" + zipname;
+        File f = new File(file);
+        if (f.exists()) { // Check if file exists, and flash without downloading
+            Toast.makeText(getActivity(), "File already exists", Toast.LENGTH_SHORT).show();
+            flashModem();
+        } else { // run if file does not exist
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
 
-        request.allowScanningByMediaScanner();
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.allowScanningByMediaScanner();
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
-        request.setDestinationInExternalPublicDir("/Modems", zipname);
+            request.setDestinationInExternalPublicDir("/Modems", zipname);
 
-        DownloadManager manager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE); // get download service and enqueue file
-        manager.enqueue(request);
+            DownloadManager manager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE); // get download service and enqueue file
+            manager.enqueue(request);
+        }
+    }
+
+    public void flashModem() {
+        try {
+            if (keep == 1) { // check if user wants to keep or delete modem file.
+                RootTools.getShell(true).add(command); // run command with SU privileges
+            } else {
+                RootTools.getShell(true).add(command2); // run command with SU privileges
+            }
+            RootTools.getShell(true).add(command);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        } catch (RootDeniedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void onClick(View v) {
@@ -150,25 +177,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                     case 1:
                         url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.98.zip"; // Set URL to download
                         zipname = "Stock_0.98.zip"; // Set download name
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.98.zip' > /cache/recovery/command", "reboot recovery"); // flash
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.98.zip of=/cache/recovery/Stock_0.98.zip", "rm /sdcard/Modems/Stock_0.98.zip", "echo '--update_package=/cache/recovery/Stock_0.98.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload(); // Start download
                         BroadcastReceiver onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
                             public void onReceive(Context context, Intent intent) {
-                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.98.zip' > /cache/recovery/command", "reboot recovery"); // flash
-                                CommandCapture command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.98.zip of=/cache/recovery/Stock_0.98.zip", "rm /sdcard/Modems/Stock_0.98.zip", "echo '--update_package=/cache/recovery/Stock_0.98.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
-                                try {
-                                    if (keep == 1) {
-                                        RootTools.getShell(true).add(command); // run command with SU privileges
-                                    } else {
-                                        RootTools.getShell(true).add(command2); // run command with SU privileges
-                                    }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (TimeoutException e) {
-                                    e.printStackTrace();
-                                } catch (RootDeniedException e) {
-                                    e.printStackTrace();
-                                }
+                                flashModem();
                             }
                         };
 
@@ -179,25 +194,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                     case 2:
                         url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.97.zip";
                         zipname = "Stock_0.97.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.97.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.97.zip of=/cache/recovery/Stock_0.97.zip", "rm /sdcard/Modems/Stock_0.97.zip", "echo '--update_package=/cache/recovery/Stock_0.97.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
                             public void onReceive(Context context, Intent intent) {
-                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.97.zip' > /cache/recovery/command", "reboot recovery");
-                                CommandCapture command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.97.zip of=/cache/recovery/Stock_0.97.zip", "rm /sdcard/Modems/Stock_0.97.zip", "echo '--update_package=/cache/recovery/Stock_0.97.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
-                                try {
-                                    if (keep == 1) {
-                                        RootTools.getShell(true).add(command); // run command with SU privileges
-                                    } else {
-                                        RootTools.getShell(true).add(command2); // run command with SU privileges
-                                    }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (TimeoutException e) {
-                                    e.printStackTrace();
-                                } catch (RootDeniedException e) {
-                                    e.printStackTrace();
-                                }
+                                flashModem();
                             }
                         };
 
@@ -208,26 +211,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                     case 3:
                         url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.84.zip";
                         zipname = "Stock_0.84.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.84.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.84.zip of=/cache/recovery/Stock_0.84.zip", "rm /sdcard/Modems/Stock_0.84.zip", "echo '--update_package=/cache/recovery/Stock_0.84.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
                             public void onReceive(Context context, Intent intent) {
-                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.84.zip' > /cache/recovery/command", "reboot recovery");
-                                CommandCapture command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.84.zip of=/cache/recovery/Stock_0.84.zip", "rm /sdcard/Modems/Stock_0.84.zip", "echo '--update_package=/cache/recovery/Stock_0.84.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
-                                try {
-                                    if (keep == 1) {
-                                        RootTools.getShell(true).add(command); // run command with SU privileges
-                                    } else {
-                                        RootTools.getShell(true).add(command2); // run command with SU privileges
-                                    }
-                                    RootTools.getShell(true).add(command);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (TimeoutException e) {
-                                    e.printStackTrace();
-                                } catch (RootDeniedException e) {
-                                    e.printStackTrace();
-                                }
+                                flashModem();
                             }
                         };
 
@@ -238,26 +228,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                     case 4:
                         url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.83.zip";
                         zipname = "Stock_0.83.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.83.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.83.zip of=/cache/recovery/Stock_0.83.zip", "rm /sdcard/Modems/Stock_0.83.zip", "echo '--update_package=/cache/recovery/Stock_0.83.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
                             public void onReceive(Context context, Intent intent) {
-                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.83.zip' > /cache/recovery/command", "reboot recovery");
-                                CommandCapture command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.83.zip of=/cache/recovery/Stock_0.83.zip", "rm /sdcard/Modems/Stock_0.83.zip", "echo '--update_package=/cache/recovery/Stock_0.83.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
-                                try {
-                                    if (keep == 1) {
-                                        RootTools.getShell(true).add(command); // run command with SU privileges
-                                    } else {
-                                        RootTools.getShell(true).add(command2); // run command with SU privileges
-                                    }
-                                    RootTools.getShell(true).add(command);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (TimeoutException e) {
-                                    e.printStackTrace();
-                                } catch (RootDeniedException e) {
-                                    e.printStackTrace();
-                                }
+                                flashModem();
                             }
                         };
 
@@ -268,26 +245,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                     case 5:
                         url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.54.zip";
                         zipname = "Stock_0.54.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.54.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.54.zip of=/cache/recovery/Stock_0.54.zip", "rm /sdcard/Modems/Stock_0.54.zip", "echo '--update_package=/cache/recovery/Stock_0.54.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
                             public void onReceive(Context context, Intent intent) {
-                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.54.zip' > /cache/recovery/command", "reboot recovery");
-                                CommandCapture command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.54.zip of=/cache/recovery/Stock_0.54.zip", "rm /sdcard/Modems/Stock_0.54.zip", "echo '--update_package=/cache/recovery/Stock_0.54.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
-                                try {
-                                    if (keep == 1) {
-                                        RootTools.getShell(true).add(command); // run command with SU privileges
-                                    } else {
-                                        RootTools.getShell(true).add(command2); // run command with SU privileges
-                                    }
-                                    RootTools.getShell(true).add(command);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (TimeoutException e) {
-                                    e.printStackTrace();
-                                } catch (RootDeniedException e) {
-                                    e.printStackTrace();
-                                }
+                                flashModem();
                             }
                         };
 
@@ -298,26 +262,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                     case 6:
                         url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.48.zip";
                         zipname = "Stock_0.48.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.48.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.48.zip of=/cache/recovery/Stock_0.48.zip", "rm /sdcard/Modems/Stock_0.48.zip", "echo '--update_package=/cache/recovery/Stock_0.48.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
                             public void onReceive(Context context, Intent intent) {
-                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.48.zip' > /cache/recovery/command", "reboot recovery");
-                                CommandCapture command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.48.zip of=/cache/recovery/Stock_0.48.zip", "rm /sdcard/Modems/Stock_0.48.zip", "echo '--update_package=/cache/recovery/Stock_0.48.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
-                                try {
-                                    if (keep == 1) {
-                                        RootTools.getShell(true).add(command); // run command with SU privileges
-                                    } else {
-                                        RootTools.getShell(true).add(command2); // run command with SU privileges
-                                    }
-                                    RootTools.getShell(true).add(command);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (TimeoutException e) {
-                                    e.printStackTrace();
-                                } catch (RootDeniedException e) {
-                                    e.printStackTrace();
-                                }
+                                flashModem();
                             }
                         };
 
@@ -328,26 +279,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                     case 7:
                         url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.33.zip";
                         zipname = "Stock_0.33.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.33.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.33.zip of=/cache/recovery/Stock_0.33.zip", "rm /sdcard/Modems/Stock_0.33.zip", "echo '--update_package=/cache/recovery/Stock_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
                             public void onReceive(Context context, Intent intent) {
-                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.33.zip' > /cache/recovery/command", "reboot recovery");
-                                CommandCapture command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.33.zip of=/cache/recovery/Stock_0.33.zip", "rm /sdcard/Modems/Stock_0.33.zip", "echo '--update_package=/cache/recovery/Stock_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
-                                try {
-                                    if (keep == 1) {
-                                        RootTools.getShell(true).add(command); // run command with SU privileges
-                                    } else {
-                                        RootTools.getShell(true).add(command2); // run command with SU privileges
-                                    }
-                                    RootTools.getShell(true).add(command);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (TimeoutException e) {
-                                    e.printStackTrace();
-                                } catch (RootDeniedException e) {
-                                    e.printStackTrace();
-                                }
+                                flashModem();
                             }
                         };
 
@@ -358,26 +296,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                     case 8:
                         url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.27.zip";
                         zipname = "Stock_0.27.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.27.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.27.zip of=/cache/recovery/Stock_0.27.zip", "rm /sdcard/Modems/Stock_0.27.zip", "echo '--update_package=/cache/recovery/Stock_0.27.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
                             public void onReceive(Context context, Intent intent) {
-                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.27.zip' > /cache/recovery/command", "reboot recovery");
-                                CommandCapture command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.27.zip of=/cache/recovery/Stock_0.27.zip", "rm /sdcard/Modems/Stock_0.27.zip", "echo '--update_package=/cache/recovery/Stock_0.27.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
-                                try {
-                                    if (keep == 1) {
-                                        RootTools.getShell(true).add(command); // run command with SU privileges
-                                    } else {
-                                        RootTools.getShell(true).add(command2); // run command with SU privileges
-                                    }
-                                    RootTools.getShell(true).add(command);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (TimeoutException e) {
-                                    e.printStackTrace();
-                                } catch (RootDeniedException e) {
-                                    e.printStackTrace();
-                                }
+                                flashModem();
                             }
                         };
 
@@ -388,26 +313,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                     case 9:
                         url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.24.zip";
                         zipname = "Stock_0.24.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.24.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.24.zip of=/cache/recovery/Stock_0.24.zip", "rm /sdcard/Modems/Stock_0.24.zip", "echo '--update_package=/cache/recovery/Stock_0.24.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
                             public void onReceive(Context context, Intent intent) {
-                                CommandCapture command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.24.zip' > /cache/recovery/command", "reboot recovery");
-                                CommandCapture command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.24.zip of=/cache/recovery/Stock_0.24.zip", "rm /sdcard/Modems/Stock_0.24.zip", "echo '--update_package=/cache/recovery/Stock_0.24.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
-                                try {
-                                    if (keep == 1) {
-                                        RootTools.getShell(true).add(command); // run command with SU privileges
-                                    } else {
-                                        RootTools.getShell(true).add(command2); // run command with SU privileges
-                                    }
-                                    RootTools.getShell(true).add(command);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (TimeoutException e) {
-                                    e.printStackTrace();
-                                } catch (RootDeniedException e) {
-                                    e.printStackTrace();
-                                }
+                                flashModem();
                             }
                         };
 
