@@ -251,7 +251,7 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
 
                     case 6:
                         if (mirror == 2) {
-                            url = "http://solidservers.us/bpear/W97C33O97.zip";
+                            url = "http://soleedus.me/bpear/W97C33O97.zip";
                         } else {
                             url = "http://goo.gl/uOQu6X";
                         }
@@ -272,7 +272,7 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
 
                     case 7:
                         if (mirror == 2) {
-                            url = "http://solidservers.us/bpear/W97C27MO97.zip";
+                            url = "http://soleedus.me/bpear/W97C27MO97.zip";
                         } else {
                             url = "http://goo.gl/APoHBH";
                         }
