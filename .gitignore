@@ -1,4 +1,7 @@
+.idea
 .gradle
+gradel.properties
+Nexus4ModemFlasher.iml
 /local.properties
 /.idea/workspace.xml
 .DS_Store
