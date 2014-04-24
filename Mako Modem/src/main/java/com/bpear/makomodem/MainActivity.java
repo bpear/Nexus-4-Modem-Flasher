@@ -58,7 +58,7 @@ public class MainActivity extends FragmentActivity implements
                 openTesting(); // *#*#4636#*#*
                 return true;
             case R.id.action_help:
-                openHelp(); // *#*#4636#*#*
+                openHelp(); // Help video
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -126,7 +126,7 @@ public class MainActivity extends FragmentActivity implements
     }
 
 
-    protected void openHelp() { // Installs TWRP recovery
+    protected void openHelp() { // Opens OfficialSoftModder video
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
