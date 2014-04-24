@@ -13,4 +13,9 @@
         android:title="@string/action_twrp"
         android:orderInCategory="200"
         android:showAsAction="never" />
+    <item
+        android:id="@+id/action_help"
+        android:title="@string/action_help"
+        android:orderInCategory="200"
+        android:showAsAction="never" />
 </menu>

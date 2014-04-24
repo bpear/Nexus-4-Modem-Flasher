@@ -57,6 +57,9 @@ public class MainActivity extends FragmentActivity implements
             case R.id.action_phone:
                 openTesting(); // *#*#4636#*#*
                 return true;
+            case R.id.action_help:
+                openHelp(); // *#*#4636#*#*
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -119,6 +122,29 @@ public class MainActivity extends FragmentActivity implements
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("This will install TeamWin Recovery onto your device. Do you want to continue?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+    }
+
+
+    protected void openHelp() { // Installs TWRP recovery
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=oNOUbXboZXY")));
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Not sure what to do? Watch a great how to video by OfficialSoftModder!").setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener).show();
     }
 
