@@ -164,7 +164,11 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
                 Toast.makeText(getActivity(), "Phone will reboot when modem is downloaded!", Toast.LENGTH_SHORT).show();
                 switch (type) { // Do following cases depending on which button is checked
                     case 1:
-                        url = "https://rebel-rom.googlecode.com/files/98-33.zip";
+                        if (mirror == 2) {
+                            url = "http://www.bpear.me/downloads/mako/hybrid/98-33.zip";
+                        } else {
+                            url = "https://rebel-rom.googlecode.com/files/98-33.zip";
+                        }
                         zipname = "LTE_Hybrid_0.98_+_0.33.zip";
                         command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.98_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // add recovery install script commands and reboot
                         command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.98_+_0.33.zip of=/cache/recovery/LTE_Hybrid_0.98_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_0.98_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.98_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
@@ -181,7 +185,11 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
                         break;
 
                     case 2:
-                        url = "http://rebel-rom.googlecode.com/files/98-27.zip";
+                        if (mirror == 2) {
+                            url = "http://www.bpear.me/downloads/mako/hybrid/98-27.zip";
+                        } else {
+                            url = "http://rebel-rom.googlecode.com/files/98-27.zip";
+                        }
                         zipname = "LTE_Hybrid_0.98_+_0.27.zip";
                         command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.98_+_0.27.zip' > /cache/recovery/command", "reboot recovery");
                         command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.98_+_0.27.zip of=/cache/recovery/LTE_Hybrid_0.98_+_0.27.zip", "rm /sdcard/Modems/LTE_Hybrid_0.98_+_0.27.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.98_+_0.27.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
@@ -199,7 +207,11 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
                         break;
 
                     case 3:
-                        url = "https://rebel-rom.googlecode.com/files/LTEhybrid33-84.zip";
+                        if (mirror == 2) {
+                            url = "http://www.bpear.me/downloads/mako/hybrid/LTEhybrid33-84.zip";
+                        } else {
+                            url = "https://rebel-rom.googlecode.com/files/LTEhybrid33-84.zip";
+                        }
                         zipname = "LTE_Hybrid_0.84_+_0.33.zip";
                         command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.84_+_0.33.zip' > /cache/recovery/command", "reboot recovery");
                         command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.84_+_0.33.zip of=/cache/recovery/LTE_Hybrid_0.84_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_0.84_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.84_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
@@ -216,7 +228,11 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
                         break;
 
                     case 4:
-                        url = "http://rebel-rom.googlecode.com/files/LTEhybrid33-54.zip";
+                        if (mirror == 2) {
+                            url = "http://www.bpear.me/downloads/mako/hybrid/LTEhybrid33-54.zip";
+                        } else {
+                            url = "http://rebel-rom.googlecode.com/files/LTEhybrid33-54.zip";
+                        }
                         zipname = "LTE_Hybrid_0.54_+_0.33.zip";
                         command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.54_+_0.33.zip' > /cache/recovery/command", "reboot recovery");
                         command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.54_+_0.33.zip of=/cache/recovery/LTE_Hybrid_0.54_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_0.54_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.54_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
@@ -233,7 +249,11 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
                         break;
 
                     case 5:
-                        url = "http://rebel-rom.googlecode.com/files/LTEhybrid27-54.zip";
+                        if (mirror == 2) {
+                            url = "http://www.bpear.me/downloads/mako/hybrid/LTEhybrid27-54.zip";
+                        } else {
+                            url = "http://rebel-rom.googlecode.com/files/LTEhybrid27-54.zip";
+                        }
                         zipname = "LTE_Hybrid_0.54_+_0.27.zip";
                         command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.54_+_0.27.zip' > /cache/recovery/command", "reboot recovery");
                         command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.54_+_0.27.zip of=/cache/recovery/LTE_Hybrid_0.54_+_0.27.zip", "rm /sdcard/Modems/LTE_Hybrid_0.54_+_0.27.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.54_+_0.27.zip > /cache/recovery/command", "reboot recovery"); // Flash and delete

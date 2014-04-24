@@ -23,6 +23,7 @@ import com.stericson.RootTools.execution.CommandCapture;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 import java.util.concurrent.TimeoutException;
 
 // Thanks to Stericson for RootTools project! https://code.google.com/p/roottools/
@@ -31,8 +32,10 @@ import java.util.concurrent.TimeoutException;
 public class StockModemFragment extends Fragment implements View.OnClickListener {
     int type;
     int keep = 1;
+    Random r = new Random();
     CommandCapture command;
     CommandCapture command2;
+    int mirror = r.nextInt(3 - 1 + 1) + 1;
     String url, zipname;
 
     @Override
@@ -175,7 +178,11 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                 Toast.makeText(getActivity(), "Phone will reboot when modem is downloaded!", Toast.LENGTH_SHORT).show(); // Prompt toast message
                 switch (type) { // Do following cases depending on which button is checked
                     case 1:
-                        url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.98.zip"; // Set URL to download
+                        if (mirror == 2) {
+                            url = "http://www.bpear.me/downloads/mako/stock/0.98.zip";
+                        } else {
+                            url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.98.zip"; // Set URL to download
+                        }
                         zipname = "Stock_0.98.zip"; // Set download name
                         command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.98.zip' > /cache/recovery/command", "reboot recovery"); // flash
                         command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.98.zip of=/cache/recovery/Stock_0.98.zip", "rm /sdcard/Modems/Stock_0.98.zip", "echo '--update_package=/cache/recovery/Stock_0.98.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
@@ -192,7 +199,11 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                         break;
 
                     case 2:
-                        url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.97.zip";
+                        if (mirror == 2) {
+                            url = "http://www.bpear.me/downloads/mako/stock/0.97.zip";
+                        } else {
+                            url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.97.zip";
+                        }
                         zipname = "Stock_0.97.zip";
                         command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.97.zip' > /cache/recovery/command", "reboot recovery");
                         command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.97.zip of=/cache/recovery/Stock_0.97.zip", "rm /sdcard/Modems/Stock_0.97.zip", "echo '--update_package=/cache/recovery/Stock_0.97.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
@@ -209,7 +220,11 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                         break;
 
                     case 3:
-                        url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.84.zip";
+                        if (mirror == 2) {
+                            url = "http://www.bpear.me/downloads/mako/stock/0.84.zip";
+                        } else {
+                            url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.84.zip";
+                        }
                         zipname = "Stock_0.84.zip";
                         command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.84.zip' > /cache/recovery/command", "reboot recovery");
                         command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.84.zip of=/cache/recovery/Stock_0.84.zip", "rm /sdcard/Modems/Stock_0.84.zip", "echo '--update_package=/cache/recovery/Stock_0.84.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
@@ -226,7 +241,11 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                         break;
 
                     case 4:
-                        url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.83.zip";
+                        if (mirror == 2) {
+                            url = "http://www.bpear.me/downloads/mako/stock/0.83.zip";
+                        } else {
+                            url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.83.zip";
+                        }
                         zipname = "Stock_0.83.zip";
                         command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.83.zip' > /cache/recovery/command", "reboot recovery");
                         command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.83.zip of=/cache/recovery/Stock_0.83.zip", "rm /sdcard/Modems/Stock_0.83.zip", "echo '--update_package=/cache/recovery/Stock_0.83.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
@@ -243,7 +262,11 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                         break;
 
                     case 5:
-                        url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.54.zip";
+                        if (mirror == 2) {
+                            url = "http://www.bpear.me/downloads/mako/stock/0.54.zip";
+                        } else {
+                            url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.54.zip";
+                        }
                         zipname = "Stock_0.54.zip";
                         command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.54.zip' > /cache/recovery/command", "reboot recovery");
                         command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.54.zip of=/cache/recovery/Stock_0.54.zip", "rm /sdcard/Modems/Stock_0.54.zip", "echo '--update_package=/cache/recovery/Stock_0.54.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
@@ -260,7 +283,11 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                         break;
 
                     case 6:
-                        url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.48.zip";
+                        if (mirror == 2) {
+                            url = "http://www.bpear.me/downloads/mako/stock/0.48.zip";
+                        } else {
+                            url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.48.zip";
+                        }
                         zipname = "Stock_0.48.zip";
                         command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.48.zip' > /cache/recovery/command", "reboot recovery");
                         command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.48.zip of=/cache/recovery/Stock_0.48.zip", "rm /sdcard/Modems/Stock_0.48.zip", "echo '--update_package=/cache/recovery/Stock_0.48.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
@@ -277,7 +304,11 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                         break;
 
                     case 7:
-                        url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.33.zip";
+                        if (mirror == 2) {
+                            url = "http://www.bpear.me/downloads/mako/stock/0.33.zip";
+                        } else {
+                            url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.33.zip";
+                        }
                         zipname = "Stock_0.33.zip";
                         command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.33.zip' > /cache/recovery/command", "reboot recovery");
                         command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.33.zip of=/cache/recovery/Stock_0.33.zip", "rm /sdcard/Modems/Stock_0.33.zip", "echo '--update_package=/cache/recovery/Stock_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
@@ -294,7 +325,11 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                         break;
 
                     case 8:
-                        url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.27.zip";
+                        if (mirror == 2) {
+                            url = "http://www.bpear.me/downloads/mako/stock/0.27.zip";
+                        } else {
+                            url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.27.zip";
+                        }
                         zipname = "Stock_0.27.zip";
                         command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.27.zip' > /cache/recovery/command", "reboot recovery");
                         command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.27.zip of=/cache/recovery/Stock_0.27.zip", "rm /sdcard/Modems/Stock_0.27.zip", "echo '--update_package=/cache/recovery/Stock_0.27.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
@@ -311,7 +346,11 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                         break;
 
                     case 9:
-                        url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.24.zip";
+                        if (mirror == 2) {
+                            url = "http://www.bpear.me/downloads/mako/stock/0.24.zip";
+                        } else {
+                            url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.24.zip";
+                        }
                         zipname = "Stock_0.24.zip";
                         command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.24.zip' > /cache/recovery/command", "reboot recovery");
                         command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.24.zip of=/cache/recovery/Stock_0.24.zip", "rm /sdcard/Modems/Stock_0.24.zip", "echo '--update_package=/cache/recovery/Stock_0.24.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
