@@ -74,10 +74,10 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
         rb7.setOnClickListener(next_Listener);
 
         Button rb8 = (Button) getActivity().findViewById(R.id.radio_h27_02);
-        rb7.setOnClickListener(next_Listener);
+        rb8.setOnClickListener(next_Listener);
 
         Button rb9 = (Button) getActivity().findViewById(R.id.radio_h33_02);
-        rb7.setOnClickListener(next_Listener);
+        rb9.setOnClickListener(next_Listener);
 
         Switch s1 = (Switch) getActivity().findViewById(R.id.switchKeep2);
         s1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
