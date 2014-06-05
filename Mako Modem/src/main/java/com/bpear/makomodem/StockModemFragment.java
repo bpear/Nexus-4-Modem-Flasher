@@ -30,7 +30,7 @@ import java.util.concurrent.TimeoutException;
 
 
 public class StockModemFragment extends Fragment implements View.OnClickListener {
-    int type;
+    int type = 0;
     int keep = 1;
     Random r = new Random();
     CommandCapture command;
@@ -182,7 +182,12 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sFlash_Button:
-                Toast.makeText(getActivity(), "Phone will reboot when modem is downloaded!", Toast.LENGTH_SHORT).show(); // Prompt toast message
+                if (type > 0) {
+                    Toast.makeText(getActivity(), "Phone will reboot when modem is downloaded!", Toast.LENGTH_SHORT).show(); // Prompt toast message
+                }
+                else {
+                    Toast.makeText(getActivity(), "Nothing will be flashed, please select a modem.", Toast.LENGTH_SHORT).show(); // Prompt toast message
+                }
                 switch (type) { // Do following cases depending on which button is checked
                     case 1:
                         if (mirror == 2) {
