@@ -79,6 +79,9 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
         Button rb9 = (Button) getActivity().findViewById(R.id.radio_s24);
         rb9.setOnClickListener(next_Listener);
 
+        Button rb10 = (Button) getActivity().findViewById(R.id.radio_s02); // Button listening
+        rb10.setOnClickListener(next_Listener);
+
         Switch s1 = (Switch) getActivity().findViewById(R.id.switchKeep);
         s1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -106,6 +109,7 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
             RadioButton rb7 = (RadioButton) getActivity().findViewById(R.id.radio_s33);
             RadioButton rb8 = (RadioButton) getActivity().findViewById(R.id.radio_s27);
             RadioButton rb9 = (RadioButton) getActivity().findViewById(R.id.radio_s24);
+            RadioButton rb10 = (RadioButton) getActivity().findViewById(R.id.radio_s02);
             if (rb1.isChecked()) { // check which radio button is checked
                 type = 1;
             }
@@ -132,6 +136,9 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
             }
             if (rb9.isChecked()) {
                 type = 9;
+            }
+            if (rb10.isChecked()) {
+                type = 10;
             }
         }
     };
@@ -354,6 +361,27 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                         zipname = "Stock_0.24.zip";
                         command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.24.zip' > /cache/recovery/command", "reboot recovery");
                         command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.24.zip of=/cache/recovery/Stock_0.24.zip", "rm /sdcard/Modems/Stock_0.24.zip", "echo '--update_package=/cache/recovery/Stock_0.24.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
+                        modemDownload();
+                        onComplete = new BroadcastReceiver() { //Check if download is done
+                            @Override
+                            public void onReceive(Context context, Intent intent) {
+                                flashModem();
+                            }
+                        };
+
+                        getActivity().registerReceiver(onComplete, new IntentFilter(
+                                DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+                        break;
+
+                    case 10:
+                        if (mirror == 2) {
+                            url = "http://goo.gl/drPlzQ";
+                        } else {
+                            url = "http://goo.gl/HHRLC8";
+                        }
+                        zipname = "Stock_0.02.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.02.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.02.zip of=/cache/recovery/Stock_0.02.zip", "rm /sdcard/Modems/Stock_0.02.zip", "echo '--update_package=/cache/recovery/Stock_0.02.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
