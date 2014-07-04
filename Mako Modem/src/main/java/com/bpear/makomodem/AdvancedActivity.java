@@ -27,7 +27,7 @@ import com.stericson.RootTools.execution.CommandCapture;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-public class MainActivity extends FragmentActivity implements
+public class AdvancedActivity extends FragmentActivity implements
         ActionBar.TabListener {
 
     String url, filename;
