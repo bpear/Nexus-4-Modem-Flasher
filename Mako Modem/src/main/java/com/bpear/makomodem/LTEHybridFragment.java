@@ -79,6 +79,12 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
         Button rb9 = (Button) getActivity().findViewById(R.id.radio_h33_02);
         rb9.setOnClickListener(next_Listener);
 
+        Button rb10 = (Button) getActivity().findViewById(R.id.radio_h27_03);
+        rb10.setOnClickListener(next_Listener);
+
+        Button rb11 = (Button) getActivity().findViewById(R.id.radio_h33_03);
+        rb11.setOnClickListener(next_Listener);
+
         Switch s1 = (Switch) getActivity().findViewById(R.id.switchKeep2);
         s1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -106,6 +112,8 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
             RadioButton rb7 = (RadioButton) getActivity().findViewById(R.id.radio_h27_97);
             RadioButton rb8 = (RadioButton) getActivity().findViewById(R.id.radio_h27_02);
             RadioButton rb9 = (RadioButton) getActivity().findViewById(R.id.radio_h33_02);
+            RadioButton rb10 = (RadioButton) getActivity().findViewById(R.id.radio_h27_03);
+            RadioButton rb11 = (RadioButton) getActivity().findViewById(R.id.radio_h33_03);
             if (rb1.isChecked()) { // If button 1 is checked set type int to 1
                 type = 1;
             }
@@ -132,6 +140,12 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
             }
             if (rb9.isChecked()) {
                 type = 9;
+            }
+            if (rb10.isChecked()) {
+                type = 10;
+            }
+            if (rb11.isChecked()) {
+                type = 11;
             }
         }
     };
@@ -360,6 +374,48 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
                         zipname = "LTE_Hybrid_0.02_+_0.33.zip";
                         command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.02_+_0.33.zip' > /cache/recovery/command", "reboot recovery");
                         command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.02_+_0.33.zip of=/cache/recovery/LTE_Hybrid_0.02_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_0.02_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.02_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
+                        modemDownload();
+                        onComplete = new BroadcastReceiver() { //Check if download is done
+                            @Override
+                            public void onReceive(Context context, Intent intent) {
+                                flashModem();
+                            }
+                        };
+
+                        getActivity().registerReceiver(onComplete, new IntentFilter(
+                                DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+                        break;
+
+                    case 10:
+                        if (mirror == 2) {
+                            url = "http://goo.gl/HvyOFm";
+                        } else {
+                            url = "http://goo.gl/mnceDy";
+                        }
+                        zipname = "LTE_Hybrid_1.03_+_0.27.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_1.03_+_0.27.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_1.03_+_0.27.zip of=/cache/recovery/LTE_Hybrid_1.03_+_0.27.zip", "rm /sdcard/Modems/LTE_Hybrid_1.03_+_0.27.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_1.03_+_0.27.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
+                        modemDownload();
+                        onComplete = new BroadcastReceiver() { //Check if download is done
+                            @Override
+                            public void onReceive(Context context, Intent intent) {
+                                flashModem();
+                            }
+                        };
+
+                        getActivity().registerReceiver(onComplete, new IntentFilter(
+                                DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+                        break;
+
+                    case 11:
+                        if (mirror == 2) {
+                            url = "http://goo.gl/Z5E1yr";
+                        } else {
+                            url = "http://goo.gl/FIQf3R";
+                        }
+                        zipname = "LTE_Hybrid_1.03_+_0.33.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_1.03_+_0.33.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_1.03_+_0.33.zip of=/cache/recovery/LTE_Hybrid_1.03_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_1.03_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_1.03_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
