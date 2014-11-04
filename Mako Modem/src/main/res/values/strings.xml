@@ -8,6 +8,7 @@
     <string name="action_about">About</string>
     <string name="action_phone">*#*#INFO#*#*</string>
     <string name="title_activity_stock">StockActivity</string>
+    <string name="s03">0.03 Stock Modem</string>
     <string name="s02">0.02 Stock Modem</string>
     <string name="s98">0.98 Stock Modem</string>
     <string name="s97">0.97 Stock Modem</string>
@@ -18,6 +19,8 @@
     <string name="s33">0.33 Stock Modem</string>
     <string name="s27">0.27 Stock Modem</string>
     <string name="s24">0.24 Stock Modem</string>
+    <string name="h33_03">0.03 + 0.33 LTE Hybrid Modem</string>
+    <string name="h27_03">0.03 + 0.27 LTE Hybrid Modem</string>
     <string name="h33_02">0.02 + 0.33 LTE Hybrid Modem</string>
     <string name="h27_02">0.02 + 0.27 LTE Hybrid Modem</string>
     <string name="h33_98">0.98 + 0.33 LTE Hybrid Modem</string>
