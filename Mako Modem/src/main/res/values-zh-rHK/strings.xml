@@ -5,7 +5,6 @@
     <string name="action_settings">設定</string>
     <string name="action_about">關於</string>
     <string name="action_phone">*#*#INFO#*#*</string>
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_stock">StockActivity</string>
     <string name="s98">0.98 原廠基帶</string>
     <string name="s97">0.97 原廠基帶</string>
