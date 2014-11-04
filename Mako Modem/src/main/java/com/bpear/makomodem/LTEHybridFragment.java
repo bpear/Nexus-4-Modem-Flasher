@@ -350,9 +350,9 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
                         } else {
                             url = "http://goo.gl/Y2PuMg";
                         }
-                        zipname = "LTE_Hybrid_0.02_+_0.27.zip";
-                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.02_+_0.27.zip' > /cache/recovery/command", "reboot recovery");
-                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.02_+_0.27.zip of=/cache/recovery/LTE_Hybrid_0.02_+_0.27.zip", "rm /sdcard/Modems/LTE_Hybrid_0.02_+_0.27.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.02_+_0.27.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
+                        zipname = "LTE_Hybrid_1.02_+_0.27.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_1.02_+_0.27.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_1.02_+_0.27.zip of=/cache/recovery/LTE_Hybrid_1.02_+_0.27.zip", "rm /sdcard/Modems/LTE_Hybrid_1.02_+_0.27.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_1.02_+_0.27.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
@@ -371,9 +371,9 @@ public class LTEHybridFragment extends Fragment implements View.OnClickListener 
                         } else {
                             url = "http://goo.gl/OEq6aq";
                         }
-                        zipname = "LTE_Hybrid_0.02_+_0.33.zip";
-                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.02_+_0.33.zip' > /cache/recovery/command", "reboot recovery");
-                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.02_+_0.33.zip of=/cache/recovery/LTE_Hybrid_0.02_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_0.02_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.02_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
+                        zipname = "LTE_Hybrid_1.02_+_0.33.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_1.02_+_0.33.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_1.02_+_0.33.zip of=/cache/recovery/LTE_Hybrid_1.02_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_1.02_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_1.02_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
