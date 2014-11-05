@@ -1,4 +1,4 @@
-package com.bpear.makomodem;
+package me.bpear.makomodem;
 
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -29,7 +29,8 @@ import java.util.concurrent.TimeoutException;
 // Thanks to Stericson for RootTools project! https://code.google.com/p/roottools/
 
 
-public class StockModemFragment extends Fragment implements View.OnClickListener {
+public class LTEHybridFragment extends Fragment implements View.OnClickListener {
+
     int type = 0;
     int keep = 1;
     Random r = new Random();
@@ -41,51 +42,50 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // inflate ...
-        View view = inflater.inflate(R.layout.fragment_stock, container, false);
+        View view = inflater.inflate(R.layout.fragment_hybrid, container, false);
         assert view != null;
-        Button b = (Button) view.findViewById(R.id.sFlash_Button);
-        b.setOnClickListener(this); // listen for "Flash" button click
+        Button b = (Button) view.findViewById(R.id.hFlash_Button); // listen for "Flash" button press
+        b.setOnClickListener(this);
         return view;
     }
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
-        Button rb1 = (Button) getActivity().findViewById(R.id.radio_s98); // Button listening
+        Button rb1 = (Button) getActivity().findViewById(R.id.radio_h33_98); //Button listening
         rb1.setOnClickListener(next_Listener);
 
-        Button rb2 = (Button) getActivity().findViewById(R.id.radio_s97);
+        Button rb2 = (Button) getActivity().findViewById(R.id.radio_h27_98);
         rb2.setOnClickListener(next_Listener);
 
-        Button rb3 = (Button) getActivity().findViewById(R.id.radio_s84);
+        Button rb3 = (Button) getActivity().findViewById(R.id.radio_h33_84);
         rb3.setOnClickListener(next_Listener);
 
-        Button rb4 = (Button) getActivity().findViewById(R.id.radio_s83);
+        Button rb4 = (Button) getActivity().findViewById(R.id.radio_h33_54);
         rb4.setOnClickListener(next_Listener);
 
-        Button rb5 = (Button) getActivity().findViewById(R.id.radio_s54);
+        Button rb5 = (Button) getActivity().findViewById(R.id.radio_h27_54);
         rb5.setOnClickListener(next_Listener);
 
-        Button rb6 = (Button) getActivity().findViewById(R.id.radio_s48);
+        Button rb6 = (Button) getActivity().findViewById(R.id.radio_h33_97);
         rb6.setOnClickListener(next_Listener);
 
-        Button rb7 = (Button) getActivity().findViewById(R.id.radio_s33);
+        Button rb7 = (Button) getActivity().findViewById(R.id.radio_h27_97);
         rb7.setOnClickListener(next_Listener);
 
-        Button rb8 = (Button) getActivity().findViewById(R.id.radio_s27);
+        Button rb8 = (Button) getActivity().findViewById(R.id.radio_h27_02);
         rb8.setOnClickListener(next_Listener);
 
-        Button rb9 = (Button) getActivity().findViewById(R.id.radio_s24);
+        Button rb9 = (Button) getActivity().findViewById(R.id.radio_h33_02);
         rb9.setOnClickListener(next_Listener);
 
-        Button rb10 = (Button) getActivity().findViewById(R.id.radio_s02); // Button listening
+        Button rb10 = (Button) getActivity().findViewById(R.id.radio_h27_03);
         rb10.setOnClickListener(next_Listener);
 
-        Button rb11 = (Button) getActivity().findViewById(R.id.radio_s03); // Button listening
+        Button rb11 = (Button) getActivity().findViewById(R.id.radio_h33_03);
         rb11.setOnClickListener(next_Listener);
 
-        Switch s1 = (Switch) getActivity().findViewById(R.id.switchKeep);
+        Switch s1 = (Switch) getActivity().findViewById(R.id.switchKeep2);
         s1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -103,18 +103,18 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
         public void onClick(View v) {
 
             //xml find out which radio button has been checked ...
-            RadioButton rb1 = (RadioButton) getActivity().findViewById(R.id.radio_s98);  //Link buttons
-            RadioButton rb2 = (RadioButton) getActivity().findViewById(R.id.radio_s97);
-            RadioButton rb3 = (RadioButton) getActivity().findViewById(R.id.radio_s84);
-            RadioButton rb4 = (RadioButton) getActivity().findViewById(R.id.radio_s83);
-            RadioButton rb5 = (RadioButton) getActivity().findViewById(R.id.radio_s54);
-            RadioButton rb6 = (RadioButton) getActivity().findViewById(R.id.radio_s48);
-            RadioButton rb7 = (RadioButton) getActivity().findViewById(R.id.radio_s33);
-            RadioButton rb8 = (RadioButton) getActivity().findViewById(R.id.radio_s27);
-            RadioButton rb9 = (RadioButton) getActivity().findViewById(R.id.radio_s24);
-            RadioButton rb10 = (RadioButton) getActivity().findViewById(R.id.radio_s02);
-            RadioButton rb11 = (RadioButton) getActivity().findViewById(R.id.radio_s03);
-            if (rb1.isChecked()) { // check which radio button is checked
+            RadioButton rb1 = (RadioButton) getActivity().findViewById(R.id.radio_h33_98);
+            RadioButton rb2 = (RadioButton) getActivity().findViewById(R.id.radio_h27_98);
+            RadioButton rb3 = (RadioButton) getActivity().findViewById(R.id.radio_h33_84);
+            RadioButton rb4 = (RadioButton) getActivity().findViewById(R.id.radio_h33_54);
+            RadioButton rb5 = (RadioButton) getActivity().findViewById(R.id.radio_h27_54);
+            RadioButton rb6 = (RadioButton) getActivity().findViewById(R.id.radio_h33_97);
+            RadioButton rb7 = (RadioButton) getActivity().findViewById(R.id.radio_h27_97);
+            RadioButton rb8 = (RadioButton) getActivity().findViewById(R.id.radio_h27_02);
+            RadioButton rb9 = (RadioButton) getActivity().findViewById(R.id.radio_h33_02);
+            RadioButton rb10 = (RadioButton) getActivity().findViewById(R.id.radio_h27_03);
+            RadioButton rb11 = (RadioButton) getActivity().findViewById(R.id.radio_h33_03);
+            if (rb1.isChecked()) { // If button 1 is checked set type int to 1
                 type = 1;
             }
             if (rb2.isChecked()) {
@@ -188,7 +188,7 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sFlash_Button:
+            case R.id.hFlash_Button:
                 if (type > 0) {
                     Toast.makeText(getActivity(), "Phone will reboot when modem is downloaded!", Toast.LENGTH_SHORT).show(); // Prompt toast message
                 }
@@ -198,13 +198,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                 switch (type) { // Do following cases depending on which button is checked
                     case 1:
                         if (mirror == 2) {
-                            url = "http://www.bpear.me/downloads/mako/stock/0.98.zip";
+                            url = "http://www.bpear.me/downloads/mako/hybrid/98-33.zip";
                         } else {
-                            url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.98.zip"; // Set URL to download
+                            url = "https://rebel-rom.googlecode.com/files/98-33.zip";
                         }
-                        zipname = "Stock_0.98.zip"; // Set download name
-                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.98.zip' > /cache/recovery/command", "reboot recovery"); // flash
-                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.98.zip of=/cache/recovery/Stock_0.98.zip", "rm /sdcard/Modems/Stock_0.98.zip", "echo '--update_package=/cache/recovery/Stock_0.98.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
+                        zipname = "LTE_Hybrid_0.98_+_0.33.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.98_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // add recovery install script commands and reboot
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.98_+_0.33.zip of=/cache/recovery/LTE_Hybrid_0.98_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_0.98_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.98_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload(); // Start download
                         BroadcastReceiver onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
@@ -219,13 +219,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
 
                     case 2:
                         if (mirror == 2) {
-                            url = "http://www.bpear.me/downloads/mako/stock/0.97.zip";
+                            url = "http://www.bpear.me/downloads/mako/hybrid/98-27.zip";
                         } else {
-                            url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.97.zip";
+                            url = "http://rebel-rom.googlecode.com/files/98-27.zip";
                         }
-                        zipname = "Stock_0.97.zip";
-                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.97.zip' > /cache/recovery/command", "reboot recovery");
-                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.97.zip of=/cache/recovery/Stock_0.97.zip", "rm /sdcard/Modems/Stock_0.97.zip", "echo '--update_package=/cache/recovery/Stock_0.97.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
+                        zipname = "LTE_Hybrid_0.98_+_0.27.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.98_+_0.27.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.98_+_0.27.zip of=/cache/recovery/LTE_Hybrid_0.98_+_0.27.zip", "rm /sdcard/Modems/LTE_Hybrid_0.98_+_0.27.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.98_+_0.27.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
@@ -234,19 +234,20 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
                             }
                         };
 
+
                         getActivity().registerReceiver(onComplete, new IntentFilter(
                                 DownloadManager.ACTION_DOWNLOAD_COMPLETE));
                         break;
 
                     case 3:
                         if (mirror == 2) {
-                            url = "http://www.bpear.me/downloads/mako/stock/0.84.zip";
+                            url = "http://www.bpear.me/downloads/mako/hybrid/LTEhybrid33-84.zip";
                         } else {
-                            url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.84.zip";
+                            url = "https://rebel-rom.googlecode.com/files/LTEhybrid33-84.zip";
                         }
-                        zipname = "Stock_0.84.zip";
-                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.84.zip' > /cache/recovery/command", "reboot recovery");
-                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.84.zip of=/cache/recovery/Stock_0.84.zip", "rm /sdcard/Modems/Stock_0.84.zip", "echo '--update_package=/cache/recovery/Stock_0.84.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
+                        zipname = "LTE_Hybrid_0.84_+_0.33.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.84_+_0.33.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.84_+_0.33.zip of=/cache/recovery/LTE_Hybrid_0.84_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_0.84_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.84_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
@@ -261,13 +262,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
 
                     case 4:
                         if (mirror == 2) {
-                            url = "http://www.bpear.me/downloads/mako/stock/0.83.zip";
+                            url = "http://www.bpear.me/downloads/mako/hybrid/LTEhybrid33-54.zip";
                         } else {
-                            url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.83.zip";
+                            url = "http://rebel-rom.googlecode.com/files/LTEhybrid33-54.zip";
                         }
-                        zipname = "Stock_0.83.zip";
-                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.83.zip' > /cache/recovery/command", "reboot recovery");
-                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.83.zip of=/cache/recovery/Stock_0.83.zip", "rm /sdcard/Modems/Stock_0.83.zip", "echo '--update_package=/cache/recovery/Stock_0.83.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
+                        zipname = "LTE_Hybrid_0.54_+_0.33.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.54_+_0.33.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.54_+_0.33.zip of=/cache/recovery/LTE_Hybrid_0.54_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_0.54_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.54_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
@@ -282,13 +283,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
 
                     case 5:
                         if (mirror == 2) {
-                            url = "http://www.bpear.me/downloads/mako/stock/0.54.zip";
+                            url = "http://www.bpear.me/downloads/mako/hybrid/LTEhybrid27-54.zip";
                         } else {
-                            url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.54.zip";
+                            url = "http://rebel-rom.googlecode.com/files/LTEhybrid27-54.zip";
                         }
-                        zipname = "Stock_0.54.zip";
-                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.54.zip' > /cache/recovery/command", "reboot recovery");
-                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.54.zip of=/cache/recovery/Stock_0.54.zip", "rm /sdcard/Modems/Stock_0.54.zip", "echo '--update_package=/cache/recovery/Stock_0.54.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
+                        zipname = "LTE_Hybrid_0.54_+_0.27.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.54_+_0.27.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.54_+_0.27.zip of=/cache/recovery/LTE_Hybrid_0.54_+_0.27.zip", "rm /sdcard/Modems/LTE_Hybrid_0.54_+_0.27.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.54_+_0.27.zip > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
@@ -303,13 +304,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
 
                     case 6:
                         if (mirror == 2) {
-                            url = "http://www.bpear.me/downloads/mako/stock/0.48.zip";
+                            url = "http://soleedus.me/bpear/W97C33O97.zip";
                         } else {
-                            url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.48.zip";
+                            url = "http://goo.gl/uOQu6X";
                         }
-                        zipname = "Stock_0.48.zip";
-                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.48.zip' > /cache/recovery/command", "reboot recovery");
-                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.48.zip of=/cache/recovery/Stock_0.48.zip", "rm /sdcard/Modems/Stock_0.48.zip", "echo '--update_package=/cache/recovery/Stock_0.48.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
+                        zipname = "LTE_Hybrid_0.97_+_0.33.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.97_+_0.33.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.97_+_0.33.zip of=/cache/recovery/LTE_Hybrid_0.97_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_0.97_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.97_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
@@ -324,13 +325,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
 
                     case 7:
                         if (mirror == 2) {
-                            url = "http://www.bpear.me/downloads/mako/stock/0.33.zip";
+                            url = "http://soleedus.me/bpear/W97C27MO97.zip";
                         } else {
-                            url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.33.zip";
+                            url = "http://goo.gl/APoHBH";
                         }
-                        zipname = "Stock_0.33.zip";
-                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.33.zip' > /cache/recovery/command", "reboot recovery");
-                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.33.zip of=/cache/recovery/Stock_0.33.zip", "rm /sdcard/Modems/Stock_0.33.zip", "echo '--update_package=/cache/recovery/Stock_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
+                        zipname = "LTE_Hybrid_0.97_+_0.27.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_0.97_+_0.27.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_0.97_+_0.27.zip of=/cache/recovery/LTE_Hybrid_0.97_+_0.27.zip", "rm /sdcard/Modems/LTE_Hybrid_0.97_+_0.27.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_0.97_+_0.27.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
@@ -345,13 +346,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
 
                     case 8:
                         if (mirror == 2) {
-                            url = "http://www.bpear.me/downloads/mako/stock/0.27.zip";
+                            url = "http://goo.gl/H3aFlN";
                         } else {
-                            url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.27.zip";
+                            url = "http://goo.gl/Y2PuMg";
                         }
-                        zipname = "Stock_0.27.zip";
-                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.27.zip' > /cache/recovery/command", "reboot recovery");
-                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.27.zip of=/cache/recovery/Stock_0.27.zip", "rm /sdcard/Modems/Stock_0.27.zip", "echo '--update_package=/cache/recovery/Stock_0.27.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
+                        zipname = "LTE_Hybrid_1.02_+_0.27.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_1.02_+_0.27.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_1.02_+_0.27.zip of=/cache/recovery/LTE_Hybrid_1.02_+_0.27.zip", "rm /sdcard/Modems/LTE_Hybrid_1.02_+_0.27.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_1.02_+_0.27.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
@@ -366,13 +367,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
 
                     case 9:
                         if (mirror == 2) {
-                            url = "http://www.bpear.me/downloads/mako/stock/0.24.zip";
+                            url = "http://goo.gl/MSAuKq";
                         } else {
-                            url = "http://rebel-rom.googlecode.com/files/cwm-radio-mako-m9615a-cefwmazm-2.0.1700.24.zip";
+                            url = "http://goo.gl/OEq6aq";
                         }
-                        zipname = "Stock_0.24.zip";
-                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_0.24.zip' > /cache/recovery/command", "reboot recovery");
-                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_0.24.zip of=/cache/recovery/Stock_0.24.zip", "rm /sdcard/Modems/Stock_0.24.zip", "echo '--update_package=/cache/recovery/Stock_0.24.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
+                        zipname = "LTE_Hybrid_1.02_+_0.33.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_1.02_+_0.33.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_1.02_+_0.33.zip of=/cache/recovery/LTE_Hybrid_1.02_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_1.02_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_1.02_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
@@ -387,13 +388,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
 
                     case 10:
                         if (mirror == 2) {
-                            url = "http://goo.gl/drPlzQ";
+                            url = "http://goo.gl/HvyOFm";
                         } else {
-                            url = "http://goo.gl/HHRLC8";
+                            url = "http://goo.gl/mnceDy";
                         }
-                        zipname = "Stock_1.02.zip";
-                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_1.02.zip' > /cache/recovery/command", "reboot recovery");
-                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_1.02.zip of=/cache/recovery/Stock_1.02.zip", "rm /sdcard/Modems/Stock_1.02.zip", "echo '--update_package=/cache/recovery/Stock_1.02.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
+                        zipname = "LTE_Hybrid_1.03_+_0.27.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_1.03_+_0.27.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_1.03_+_0.27.zip of=/cache/recovery/LTE_Hybrid_1.03_+_0.27.zip", "rm /sdcard/Modems/LTE_Hybrid_1.03_+_0.27.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_1.03_+_0.27.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
@@ -408,13 +409,13 @@ public class StockModemFragment extends Fragment implements View.OnClickListener
 
                     case 11:
                         if (mirror == 2) {
-                            url = "http://goo.gl/QDmIUq";
+                            url = "http://goo.gl/Z5E1yr";
                         } else {
-                            url = "http://goo.gl/LTFSWl";
+                            url = "http://goo.gl/FIQf3R";
                         }
-                        zipname = "Stock_1.03.zip";
-                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/Stock_1.03.zip' > /cache/recovery/command", "reboot recovery");
-                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/Stock_1.03.zip of=/cache/recovery/Stock_1.03.zip", "rm /sdcard/Modems/Stock_1.03.zip", "echo '--update_package=/cache/recovery/Stock_1.03.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
+                        zipname = "LTE_Hybrid_1.03_+_0.33.zip";
+                        command = new CommandCapture(0, "echo '--update_package=/sdcard/0/Modems/LTE_Hybrid_1.03_+_0.33.zip' > /cache/recovery/command", "reboot recovery");
+                        command2 = new CommandCapture(0, "dd if=/sdcard/Modems/LTE_Hybrid_1.03_+_0.33.zip of=/cache/recovery/LTE_Hybrid_1.03_+_0.33.zip", "rm /sdcard/Modems/LTE_Hybrid_1.03_+_0.33.zip", "echo '--update_package=/cache/recovery/LTE_Hybrid_1.03_+_0.33.zip' > /cache/recovery/command", "reboot recovery"); // Flash and delete
                         modemDownload();
                         onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override

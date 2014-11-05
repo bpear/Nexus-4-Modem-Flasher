@@ -1,4 +1,4 @@
-package com.bpear.makomodem;
+package me.bpear.makomodem;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -19,7 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.bpear.makomodem.adapter.TabsPagerAdapter;
+import me.bpear.makomodem.adapter.TabsPagerAdapter;
 import com.stericson.RootTools.RootTools;
 import com.stericson.RootTools.exceptions.RootDeniedException;
 import com.stericson.RootTools.execution.CommandCapture;

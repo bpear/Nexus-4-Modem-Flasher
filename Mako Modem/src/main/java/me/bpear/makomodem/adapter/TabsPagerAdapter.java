@@ -1,12 +1,12 @@
-package com.bpear.makomodem.adapter;
+package me.bpear.makomodem.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.bpear.makomodem.BuildpropFragment;
-import com.bpear.makomodem.LTEHybridFragment;
-import com.bpear.makomodem.StockModemFragment;
+import me.bpear.makomodem.BuildpropFragment;
+import me.bpear.makomodem.LTEHybridFragment;
+import me.bpear.makomodem.StockModemFragment;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 

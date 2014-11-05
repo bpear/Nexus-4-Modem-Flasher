@@ -1,4 +1,4 @@
-package com.bpear.makomodem;
+package me.bpear.makomodem;
 
 import android.content.res.AssetManager;
 import android.os.Bundle;
@@ -25,20 +25,20 @@ import java.util.concurrent.TimeoutException;
 
 
 
-public class BuildpropFragment extends Fragment implements View.OnClickListener {
-    int type;
+        public class BuildpropFragment extends Fragment implements View.OnClickListener {
+            int type;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // inflate ...
-        View view = inflater.inflate(R.layout.fragment_buildprop, container, false);
-        assert view != null;
-        Button b = (Button) view.findViewById(R.id.EnableLTE);
-        b.setOnClickListener(this);
-        return view;
-    }
+            @Override
+            public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+                // inflate ...
+                View view = inflater.inflate(R.layout.fragment_buildprop, container, false);
+                assert view != null;
+                Button b = (Button) view.findViewById(R.id.EnableLTE);
+                b.setOnClickListener(this);
+                return view;
+            }
 
-    public void onActivityCreated(Bundle savedInstanceState) {
+            public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         Button cb1 = (CheckBox) getActivity().findViewById(R.id.checkBoxLTE);
