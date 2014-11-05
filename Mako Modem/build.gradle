@@ -5,7 +5,6 @@ android {
     buildToolsVersion "21.1"
 
     defaultConfig {
-        applicationId "me.bpear.archonpackager"
         minSdkVersion 17
         targetSdkVersion 20
         versionCode 13
