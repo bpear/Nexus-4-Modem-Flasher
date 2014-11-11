@@ -90,13 +90,13 @@ public class MainActivity extends FragmentActivity implements
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         //Yes button clicked
-                        url = "http://goo.gl/RAR4RG";
-                        filename = "openrecovery-twrp-2.7.1.0-mako.img";
+                        url = "http://www.bpear.me/downloads/mako/TWRP/openrecovery-twrp-2.8.1.0-mako.img";
+                        filename = "openrecovery-twrp-2.8.1.0-mako.img";
                         imgDownload();
                         BroadcastReceiver onComplete = new BroadcastReceiver() { //Check if download is done
                             @Override
                             public void onReceive(Context context, Intent intent) {
-                                CommandCapture command = new CommandCapture(0, "dd if=/sdcard/Modems/openrecovery-twrp-2.7.1.0-mako.img of=/dev/block/mmcblk0p7", "rm -f /sdcard/Modems/openrecovery-twrp-2.7.1.0-mako.img");
+                                CommandCapture command = new CommandCapture(0, "dd if=/sdcard/Modems/openrecovery-twrp-2.8.1.0-mako.img of=/dev/block/mmcblk0p7", "rm -f /sdcard/Modems/openrecovery-twrp-2.8.1.0-mako.img");
                                 try {
                                     RootTools.getShell(true).add(command); // run command with SU privileges
                                 } catch (IOException e) {
